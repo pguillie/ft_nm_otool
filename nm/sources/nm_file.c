@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 14:06:00 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/16 20:35:43 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/17 17:36:56 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-int		nm_header(void *ptr, size_t size);
+int nm_header(void *ptr, void *boundary);
 
-int		nm_file(const char *file)
+int
+nm_file(const char *file)
 {
-	int			fd;
+	int		fd;
 	struct stat	buf;
 	void		*ptr;
-	int			ret;
+	int		ret;
 
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (EXIT_FAILURE);
-	if (fstat(fd, &buf) < 0)
-	{
+	if (fstat(fd, &buf) < 0) {
 		close(fd);
 		return (EXIT_FAILURE);
 	}
@@ -36,7 +36,7 @@ int		nm_file(const char *file)
 	close(fd);
 	if (ptr == MAP_FAILED)
 		return (EXIT_FAILURE);
-	ret = nm_header(ptr, buf.st_size);
+	ret = nm_header(ptr, ptr + buf.st_size);
 	if (munmap(ptr, buf.st_size) < 0)
 		return (EXIT_FAILURE);
 	return (ret);

@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/16 19:39:23 by pguillie         ###   ########.fr        #
+#    Updated: 2019/01/17 18:36:31 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,15 @@ OTOOL	= ft_otool
 CC		= gcc
 CFLAGS	= -Wall -Werror -Wextra
 
-NMSOURCES = $(addprefix nm/, \
+NMSOURCES = \
+$(addprefix nm/sources/, \
 	main.c \
 	nm_file.c \
 	nm_header.c \
-	nm_sym_32.c \
-	nm_sym_64.c \
+	nm_mach_header.c \
+) \
+$(addprefix utils/sources/, \
+	\
 )
 
 OTOOLSOURCES = $(addprefix otool/, \
@@ -34,7 +37,6 @@ OTOOLOBJECTS = $(OTOOLSOURCES:%c=%.o)
 .PHONY: all nmclean nmfclean nmre otoolclean otoolfclean otoolre clean fclean re
 
 all: $(NM) $(OTOOL)
-	echo foo
 
 $(NM): $(NMOBJECTS)
 	echo $(NMOBJECTS)

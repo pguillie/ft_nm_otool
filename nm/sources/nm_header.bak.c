@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 15:10:03 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/16 22:52:33 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/17 16:13:47 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 
 #include <stdio.h>
 
-int	nm_sym_32(void *ptr, size_t size, struct symtab_command *sym, int *sectn);
-int	nm_sym_64(void *ptr, size_t size, struct symtab_command *sym, int *sectn);
+int nm_sym_32(void *ptr, size_t size, struct symtab_command *sym, int *sectn);
+int nm_sym_64(void *ptr, size_t size, struct symtab_command *sym, int *sectn);
 
-static ssize_t	nm_sect_32(void *eof, struct segment_command *seg, ssize_t idx,
+static ssize_t
+nm_sect_32(void *eof, struct segment_command *seg, ssize_t idx,
 	int	*sectn)
 {
 	size_t		i;
@@ -49,7 +50,8 @@ static ssize_t	nm_sect_32(void *eof, struct segment_command *seg, ssize_t idx,
 	return (idx);
 }
 
-static int	nm_header_32(void *ptr, size_t size)
+static int
+nm_header_32(void *ptr, size_t size)
 {
 	struct mach_header	*header;
 	struct load_command	*lc;
@@ -75,7 +77,8 @@ static int	nm_header_32(void *ptr, size_t size)
 	return (EXIT_SUCCESS);
 }
 
-static ssize_t	nm_sect_64(void *eof, struct segment_command_64 *seg, ssize_t idx,
+static ssize_t
+nm_sect_64(void *eof, struct segment_command_64 *seg, ssize_t idx,
 	int	*sectn)
 {
 	size_t			i;
@@ -104,7 +107,8 @@ static ssize_t	nm_sect_64(void *eof, struct segment_command_64 *seg, ssize_t idx
 	return (idx);
 }
 
-static int	nm_header_64(void *ptr, size_t size)
+static int
+nm_header_64(void *ptr, size_t size)
 {
 	struct mach_header_64	*header;
 	struct load_command	*lc;
@@ -130,36 +134,8 @@ static int	nm_header_64(void *ptr, size_t size)
 	return (EXIT_SUCCESS);
 }
 
-// OSSwapConstInt32(x)
-
-// static int	nm_header_swap_32(void *ptr, size_t size)
-// {
-// 	struct mach_header	*header;
-// 	struct load_command	*lc;
-// 	size_t			ncmds;
-// 	ssize_t			sectx;
-// 	int			sectn[3];
-
-// 	printf("reversed!!!\n");
-// 	header = (struct mach_header *) ptr;
-// 	ncmds = header->ncmds;
-// 	lc = (void *) ptr + sizeof(struct mach_header);
-// 	sectx = 1;
-// 	while (ncmds--)
-// 	{
-// 		if ((void *) lc + lc->cmdsize > ptr + size || sectx < 0)
-// 			return (EXIT_FAILURE);
-// 		if (lc->cmd == LC_SYMTAB)
-// 			nm_sym_32(ptr, size, (void *) lc, sectn);
-// 		else if (lc->cmd == LC_SEGMENT
-// 			&& ((struct segment_command *) lc)->nsects)
-// 			sectx = nm_sect_32(ptr + size, (void *) lc, sectx, sectn);
-// 		lc = (void *) lc + lc->cmdsize;
-// 	}
-// 	return (EXIT_SUCCESS);
-// }
-
-int		nm_header(void *ptr, size_t size)
+int
+nm_header(void *ptr, size_t size)
 {
 	unsigned int	magic;
 	int		ret;
