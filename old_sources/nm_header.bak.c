@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nm_header.c                                        :+:      :+:    :+:   */
+/*   nm_header.bak.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 15:10:03 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/17 16:13:47 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/18 18:48:07 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int nm_sym_32(void *ptr, size_t size, struct symtab_command *sym, int *sectn);
 int nm_sym_64(void *ptr, size_t size, struct symtab_command *sym, int *sectn);
 
 static ssize_t
-nm_sect_32(void *eof, struct segment_command *seg, ssize_t idx,
+	nm_sect_32(void *eof, struct segment_command *seg, ssize_t idx,
 	int	*sectn)
 {
 	size_t		i;
@@ -51,7 +51,7 @@ nm_sect_32(void *eof, struct segment_command *seg, ssize_t idx,
 }
 
 static int
-nm_header_32(void *ptr, size_t size)
+	nm_header_32(void *ptr, size_t size)
 {
 	struct mach_header	*header;
 	struct load_command	*lc;
@@ -78,7 +78,7 @@ nm_header_32(void *ptr, size_t size)
 }
 
 static ssize_t
-nm_sect_64(void *eof, struct segment_command_64 *seg, ssize_t idx,
+	nm_sect_64(void *eof, struct segment_command_64 *seg, ssize_t idx,
 	int	*sectn)
 {
 	size_t			i;
@@ -108,7 +108,7 @@ nm_sect_64(void *eof, struct segment_command_64 *seg, ssize_t idx,
 }
 
 static int
-nm_header_64(void *ptr, size_t size)
+	nm_header_64(void *ptr, size_t size)
 {
 	struct mach_header_64	*header;
 	struct load_command	*lc;
@@ -135,7 +135,7 @@ nm_header_64(void *ptr, size_t size)
 }
 
 int
-nm_header(void *ptr, size_t size)
+	nm_header(void *ptr, size_t size)
 {
 	unsigned int	magic;
 	int		ret;

@@ -6,60 +6,51 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/17 18:36:31 by pguillie         ###   ########.fr        #
+#    Updated: 2019/01/18 23:19:28 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NM		= ft_nm
-OTOOL	= ft_otool
+NAME	= ft_nm
 
-CC		= gcc
+CC	= gcc
 CFLAGS	= -Wall -Werror -Wextra
 
-NMSOURCES = \
-$(addprefix nm/sources/, \
+INCLUDES = \
+$(addprefix includes/, \
+	ft_nm.h \
+)
+
+SOURCES = \
+$(addprefix sources/, \
+	get_load_command.c \
+	get_mach_header.c \
+	get_nlist.c \
+	get_section.c \
+	get_segment_command.c \
+	get_symtab_command.c \
 	main.c \
-	nm_file.c \
-	nm_header.c \
+	nm_check_header.c \
 	nm_mach_header.c \
-) \
-$(addprefix utils/sources/, \
-	\
+	nm_map_file.c \
+	nm_symtab.c \
 )
 
-OTOOLSOURCES = $(addprefix otool/, \
-)
+OBJECTS = $(SOURCES:%.c=%.o)
 
-NMOBJECTS = $(NMSOURCES:%.c=%.o)
+.PHONY: all clean fclean re
 
-OTOOLOBJECTS = $(OTOOLSOURCES:%c=%.o)
+all: $(NAME)
 
-.PHONY: all nmclean nmfclean nmre otoolclean otoolfclean otoolre clean fclean re
-
-all: $(NM) $(OTOOL)
-
-$(NM): $(NMOBJECTS)
-	echo $(NMOBJECTS)
+$(NAME): $(OBJECTS)
 	$(CC) -o $@ $^
 
-nmclean:
-	rm -f $(NMOBJECTS)
+%.o: %.c Makefile $(INCLUDES)
+	$(CC) $(CFLAGS) -I includes -c -o $@ $<
 
-nmfclean: nmclean
-	rm -f $(NM)
+clean:
+	rm -rf $(OBJECTS)
 
-nmre: nmfclean nm
-
-otoolclean:
-	rm -f $(OTOOLOBJECTS)
-
-otoolfclean: otoolclean
-	rm -f $(OTOOL)
-
-otoolre: otoolfclean otool
-
-clean: nmclean otoolclean
-
-fclean: nmfclean otoolfclean
+fclean: clean
+	rm -rf $(NAME)
 
 re: fclean all

@@ -6,27 +6,21 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 17:04:13 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/17 18:14:27 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/18 19:14:01 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mach-o/loader.h>
-#include <stddef.h>
-
-# define REV_BYTE_ORDER 1
+#include "ft_nm.h"
 
 struct section *
-get_section(void *ptr, void *boundary)
+get_section(void *ptr, struct macho_info macho)
 {
 	struct section	*sect;
-	int		rev;
 
-	rev = (uint32_t)boundary & REV_BYTE_ORDER;
-	boundary = (uint32_t)boundary & ~REV_BYTE_ORDER;
-	if (ptr + sizeof(struct section) > boundary)
+	if (ptr + sizeof(struct section) > macho.ptr + macho.size)
 		return (NULL);
 	sect = (struct section *)ptr;
-	if (rev) {
+	if (macho.is_rev) {
 		sect->addr = OSSwapConstInt32(sect->addr);
 		sect->size = OSSwapConstInt32(sect->size);
 		sect->offset = OSSwapConstInt32(sect->offset);
@@ -37,7 +31,7 @@ get_section(void *ptr, void *boundary)
 		sect->reserved1 = OSSwapConstInt32(sect->reserved1);
 		sect->reserved2 = OSSwapConstInt32(sect->reserved2);
 	}
-	if (ptr + sect->size > boundary)
+	if (ptr + sect->size > macho.ptr + macho.size)
 		return (NULL);
 	return (sect);
 }

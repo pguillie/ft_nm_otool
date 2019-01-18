@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   macho_utils.h                                      :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/17 18:38:15 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/17 18:46:35 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/18 14:32:01 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/18 15:58:58 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MACHO_UTILS_H
-# define MACHO_UTILS_H
+#include "ft_nm.h"
 
-#include <mach-o/loader.h>
-#include <mach-o/nlist.h>
-#include <mach-o/fat.h>
-
-struct load_command	get_load_command(void *ptr);//
-
-#endif /* MACHO_UTILS_H */
+int
+main(int argc, char const *argv[])
+{
+	if (argc > 2)
+		;//multiarg
+	else if (argc == 2)
+		nm_map_file(argv[1]);
+	else
+		nm_map_file("a.out");
+	return 0;
+}

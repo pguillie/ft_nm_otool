@@ -6,27 +6,21 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 16:58:00 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/17 18:14:20 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/18 19:12:27 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <mach-o/loader.h>
-#include <stddef.h>
-
-# define REV_BYTE_ORDER 1
+#include "ft_nm.h"
 
 struct segment_command *
-get_segment_command(void *ptr, void *boundary)
+get_segment_command(void *ptr, struct macho_info macho)
 {
 	struct segment_command	*seg;
-	int			rev;
 
-	rev = (uint32_t)boundary & REV_BYTE_ORDER;
-	boundary = (uint32_t)boundary & ~REV_BYTE_ORDER;
-	if (ptr + sizeof(struct segment_command) > boundary)
+	if (ptr + sizeof(struct segment_command) > macho.ptr + macho.size)
 		return (NULL);
 	seg = (struct segment_command *)ptr;
-	if (rev) {
+	if (macho.is_rev) {
 		seg->vmaddr = OSSwapConstInt32(seg->vmaddr);
 		seg->vmsize = OSSwapConstInt32(seg->vmsize);
 		seg->fileoff = OSSwapConstInt32(seg->fileoff);
