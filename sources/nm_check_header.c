@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:35:34 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/18 23:20:46 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/19 21:01:01 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,22 @@ nm_check_header(struct macho_info macho)
 
 	magic = *(unsigned int *)macho.ptr;
 	if (magic == MH_MAGIC) {
-		write(1, "magic\n", 6);
+		dprintf(2, "magic\n");
 		macho.is_rev = 0;
 		ret = nm_mach_header(macho);
 	} else if (magic == MH_CIGAM) {
-		write(1, "cigam\n", 6);
+		dprintf(2, "cigam\n");
 		macho.is_rev = 1;
 		ret = nm_mach_header(macho);
+	} else if (magic == MH_MAGIC_64) {
+		dprintf(2, "magic64\n");
+		macho.is_rev = 0;
+		ret = nm_mach_header_64(macho);
+	} else if (magic == MH_CIGAM_64) {
+		dprintf(2, "cigam64\n");
+		macho.is_rev = 1;
+		ret = nm_mach_header_64(macho);
 	} else {
-		write(1, "fuck\n", 5);
 		return (-1);
 	}
 	return (ret);

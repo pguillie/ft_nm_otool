@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   nm_symtab.c                                        :+:      :+:    :+:   */
+/*   nm_symtab_64.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 19:29:25 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/19 19:20:10 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/19 20:13:18 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 static char *
-get_string_table(struct symtab_command const *sym, struct nlist const *symtab,
+get_string_table(struct symtab_command const *sym, struct nlist_64 const *symtab,
 	struct macho_info const macho)
 {
 	char		*str;
@@ -33,18 +33,18 @@ get_string_table(struct symtab_command const *sym, struct nlist const *symtab,
 }
 
 int
-nm_symtab(struct symtab_command *sym, struct macho_info const macho)
+nm_symtab_64(struct symtab_command *sym, struct macho_info const macho)
 {
-	struct nlist	*symtab;
+	struct nlist_64	*symtab;
 	char		*strtab;
 
 	if (get_symtab_command(sym, macho) == NULL)
 		return (-1);
-	if ((symtab = get_nlist(macho.ptr + sym->symoff, macho)) == NULL)
+	if ((symtab = get_nlist_64(macho.ptr + sym->symoff, macho)) == NULL)
 		return (-1);
 	strtab = get_string_table(sym, symtab, macho);
 	if (strtab == NULL)
 		return (-1);
-	write_symbols(symtab, sym->nsyms, strtab, macho);
+	write_symbols_64(symtab, sym->nsyms, strtab, macho);
 	return (0);
 }

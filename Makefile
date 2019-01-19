@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/18 23:19:28 by pguillie         ###   ########.fr        #
+#    Updated: 2019/01/19 20:11:05 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,16 +23,28 @@ $(addprefix includes/, \
 SOURCES = \
 $(addprefix sources/, \
 	get_load_command.c \
+	get_mach_header_64.c \
 	get_mach_header.c \
+	get_nlist_64.c \
 	get_nlist.c \
+	get_section_64.c \
 	get_section.c \
+	get_segment_command_64.c \
 	get_segment_command.c \
 	get_symtab_command.c \
 	main.c \
 	nm_check_header.c \
+	nm_mach_header_64.c \
 	nm_mach_header.c \
 	nm_map_file.c \
+	nm_symtab_64.c \
 	nm_symtab.c \
+	write_symbols_64.c \
+	write_symbols.c \
+\
+	ft_memset.c \
+	ft_strcmp.c \
+	ft_strlen.c \
 )
 
 OBJECTS = $(SOURCES:%.c=%.o)

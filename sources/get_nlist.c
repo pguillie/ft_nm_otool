@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 23:13:21 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/18 23:19:07 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/19 19:53:15 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ get_nlist(void *ptr, struct macho_info macho)
 	entry = (struct nlist *)ptr;
 	if (macho.is_rev) {
 		entry->n_un.n_strx = OSSwapConstInt32(entry->n_un.n_strx);
-		entry->n_type = OSSwapConstInt32(entry->n_type);
-		entry->n_sect = OSSwapConstInt32(entry->n_sect);
-		entry->n_desc = OSSwapConstInt32(entry->n_desc);
+		entry->n_desc = OSSwapConstInt16(entry->n_desc);
 		entry->n_value = OSSwapConstInt32(entry->n_value);
 	}
 	return (entry);
