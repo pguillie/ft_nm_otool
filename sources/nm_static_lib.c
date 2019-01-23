@@ -1,30 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   nm_static_lib.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 14:32:01 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 18:32:16 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/22 18:17:16 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/22 18:28:30 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 int
-main(int argc, char const *argv[])
+nm_static_lib(struct macho_info macho)
 {
-	int	i;
-
-	if (argc > 2) {
-		i = 1;
-		while (i < argc)
-			nm_map_file(argv[i++], 1);
-	} else if (argc == 2) {
-		nm_map_file(argv[1], 0);
-	} else {
-		nm_map_file("a.out", 0);
-	}
-	return 0; //
+	(void)macho;
+	return (-1);
 }

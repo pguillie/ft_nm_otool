@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 19:35:17 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/18 21:29:38 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/22 11:42:23 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,10 @@ get_symtab_command(void *ptr, struct macho_info macho)
 		sym->stroff = OSSwapConstInt32(sym->stroff);
 		sym->strsize = OSSwapConstInt32(sym->strsize);
 	}
+	dprintf(2, "== SYMTAB_COMMAND ==\n");
+	dprintf(2, "%.8x\n", sym->symoff);
+	dprintf(2, "%.8x\n", sym->nsyms);
+	dprintf(2, "%.8x\n", sym->stroff);
+	dprintf(2, "%.8x\n", sym->strsize);
 	return (sym);
 }

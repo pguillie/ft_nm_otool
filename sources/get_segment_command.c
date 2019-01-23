@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 16:58:00 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/18 19:12:27 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/22 16:36:24 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,5 +30,18 @@ get_segment_command(void *ptr, struct macho_info macho)
 		seg->nsects = OSSwapConstInt32(seg->nsects);
 		seg->flags = OSSwapConstInt32(seg->flags);
 	}
+	dprintf(2, "== SEGMENT_COMMAND ==\n");
+	dprintf(2, "%.16s\n", seg->segname);
+	dprintf(2, "%.8x\n", seg->vmaddr);
+	dprintf(2, "%.8x\n", seg->vmsize);
+	dprintf(2, "%.8x\n", seg->fileoff);
+	dprintf(2, "%.8x\n", seg->filesize);
+	dprintf(2, "%.8x\n", seg->maxprot);
+	dprintf(2, "%.8x\n", seg->initprot);
+	dprintf(2, "%.8x\n", seg->nsects);
+	dprintf(2, "%.8x\n", seg->flags);
+	//TODO eventually use `fileoff' instead of `mvaddr'
+	if (seg->vmaddr + seg->vmsize > (uint32_t)macho.ptr + macho.size)
+		return (NULL);
 	return (seg);
 }

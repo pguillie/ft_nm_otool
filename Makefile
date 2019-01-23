@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/19 20:11:05 by pguillie         ###   ########.fr        #
+#    Updated: 2019/01/23 18:46:09 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,8 @@ $(addprefix includes/, \
 
 SOURCES = \
 $(addprefix sources/, \
+	get_fat_arch.c \
+	get_fat_header.c \
 	get_load_command.c \
 	get_mach_header_64.c \
 	get_mach_header.c \
@@ -34,9 +36,11 @@ $(addprefix sources/, \
 	get_symtab_command.c \
 	main.c \
 	nm_check_header.c \
+	nm_fat_header.c \
 	nm_mach_header_64.c \
 	nm_mach_header.c \
 	nm_map_file.c \
+	nm_static_lib.c \
 	nm_symtab_64.c \
 	nm_symtab.c \
 	write_symbols_64.c \
@@ -44,6 +48,7 @@ $(addprefix sources/, \
 \
 	ft_memset.c \
 	ft_strcmp.c \
+	ft_strncmp.c \
 	ft_strlen.c \
 )
 

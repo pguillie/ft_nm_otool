@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 17:04:13 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/19 19:48:37 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/22 15:12:47 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ get_section_64(void *ptr, struct macho_info macho)
 {
 	struct section_64 *sect;
 
+	// dprintf(2, "%p + %lx (%p) > %p + %llx (%p)\n",
+	// 	ptr, sizeof(struct section_64), ptr + sizeof(struct section_64),
+	// 	macho.ptr, macho.size, macho.ptr + macho.size);
 	if (ptr + sizeof(struct section_64) > macho.ptr + macho.size)
 		return (NULL);
 	sect = (struct section_64 *)ptr;
@@ -32,7 +35,23 @@ get_section_64(void *ptr, struct macho_info macho)
 		sect->reserved2 = OSSwapConstInt32(sect->reserved2);
 		sect->reserved3 = OSSwapConstInt32(sect->reserved3);
 	}
-	if (ptr + sect->size > macho.ptr + macho.size)
+	dprintf(2, "= SECTION_64 =\n");
+	dprintf(2, "%.16s\n", sect->sectname);
+	dprintf(2, "%.16s\n", sect->segname);
+	dprintf(2, "%.16llx\n", sect->addr);
+	dprintf(2, "%.16llx\n", sect->size);
+	dprintf(2, "%.8x\n", sect->offset);
+	dprintf(2, "%.8x\n", sect->align);
+	dprintf(2, "%.8x\n", sect->reloff);
+	dprintf(2, "%.8x\n", sect->nreloc);
+	dprintf(2, "%.8x\n", sect->flags);
+	dprintf(2, "%.8x\n", sect->reserved1);
+	dprintf(2, "%.8x\n", sect->reserved2);
+	dprintf(2, "%.8x\n", sect->reserved3);
+	// dprintf(2, "%p + %llx (%p) > %p + %llx (%p)\n",
+	// 	ptr, sect->size, ptr + sect->size,
+	// 	macho.ptr, macho.size, macho.ptr + macho.size);
+	if (sect->addr + sect->size > (uint64_t)macho.ptr + macho.size)
 		return (NULL);
 	return (sect);
 }

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 11:19:06 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/18 17:32:13 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/23 13:13:15 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,14 @@ get_mach_header(struct macho_info macho)
 		header->sizeofcmds = OSSwapConstInt32(header->sizeofcmds);
 		header->flags = OSSwapConstInt32(header->flags);
 	}
+	dprintf(2, "=== MACH_HEADER ===\n");
+	dprintf(2, "%.8x\n", header->magic);
+	dprintf(2, "%.8x\n", header->cputype);
+	dprintf(2, "%.8x\n", header->cpusubtype);
+	dprintf(2, "%.8x\n", header->filetype);
+	dprintf(2, "%.8x\n", header->ncmds);
+	dprintf(2, "%.8x\n", header->sizeofcmds);
+	dprintf(2, "%.8x\n", header->flags);
 	if (header->sizeofcmds > macho.size)
 		return (NULL);
 	return (header);

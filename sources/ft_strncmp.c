@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strncmp.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/18 14:32:01 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 18:32:16 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/22 18:13:40 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/22 18:14:26 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include <stddef.h>
 
 int
-main(int argc, char const *argv[])
+ft_strncmp(char const *s1, char const *s2, size_t n)
 {
-	int	i;
-
-	if (argc > 2) {
-		i = 1;
-		while (i < argc)
-			nm_map_file(argv[i++], 1);
-	} else if (argc == 2) {
-		nm_map_file(argv[1], 0);
-	} else {
-		nm_map_file("a.out", 0);
+	while (*s1 && *s2 && *s1 == *s2 && n--)
+	{
+		s1++;
+		s2++;
 	}
-	return 0; //
+	return (*s1 - *s2);
 }

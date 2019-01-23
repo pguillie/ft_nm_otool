@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 17:04:13 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/18 19:14:01 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/22 15:13:02 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,19 @@ get_section(void *ptr, struct macho_info macho)
 		sect->reserved1 = OSSwapConstInt32(sect->reserved1);
 		sect->reserved2 = OSSwapConstInt32(sect->reserved2);
 	}
-	if (ptr + sect->size > macho.ptr + macho.size)
+	dprintf(2, "= SECTION =\n");
+	dprintf(2, "%.16s\n", sect->sectname);
+	dprintf(2, "%.16s\n", sect->segname);
+	dprintf(2, "%.8x\n", sect->addr);
+	dprintf(2, "%.8x\n", sect->size);
+	dprintf(2, "%.8x\n", sect->offset);
+	dprintf(2, "%.8x\n", sect->align);
+	dprintf(2, "%.8x\n", sect->reloff);
+	dprintf(2, "%.8x\n", sect->nreloc);
+	dprintf(2, "%.8x\n", sect->flags);
+	dprintf(2, "%.8x\n", sect->reserved1);
+	dprintf(2, "%.8x\n", sect->reserved2);
+	if (sect->addr + sect->size > (uint32_t)macho.ptr + macho.size)
 		return (NULL);
 	return (sect);
 }

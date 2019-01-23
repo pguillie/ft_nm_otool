@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/19 20:09:43 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/22 18:10:58 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,11 @@ write_symbols(struct nlist *symtab, size_t nsyms, char *strtab,
 	size_t	i;
 	char	*name;
 
+	if (macho.name) {
+		write(1, "\n", 1);
+		write(1, macho.name, ft_strlen(macho.name));
+		write(1, ":\n", 2);
+	}
 	i = 0;
 	while (i < nsyms) {
 		if (symtab[i].n_type & N_STAB) {
