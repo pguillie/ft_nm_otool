@@ -6,14 +6,14 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:12:17 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/19 19:27:31 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/24 13:27:01 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
 size_t
-ft_strlen(char const *str)
+ft_strlen(const char *str)
 {
 	size_t	i;
 

@@ -6,49 +6,82 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:35:34 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/23 17:57:55 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/28 18:38:20 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 int
+nm_check_mach_header(struct macho_info *macho)
+{
+	uint32_t magic;
+
+	magic = *(uint32_t *)macho->ptr;
+	if (magic == MH_MAGIC)
+		macho->is_rev = 0;
+	else if (magic == MH_CIGAM)
+		macho->is_rev = 1;
+	else
+		return (0);
+	dprintf(2, "%s\n", macho->is_rev ? "cigam" : "magic");
+	return (1);
+}
+
+int
+nm_check_mach_header_64(struct macho_info *macho)
+{
+	uint32_t magic;
+
+	magic = *(uint32_t *)macho->ptr;
+	if (magic == MH_MAGIC_64)
+		macho->is_rev = 0;
+	else if (magic == MH_CIGAM_64)
+		macho->is_rev = 1;
+	else
+		return (0);
+	dprintf(2, "%s\n", macho->is_rev ? "cigam_64" : "magic_64");
+	return (1);
+}
+
+int
+nm_check_fat_header(struct macho_info *macho)
+{
+	uint32_t magic;
+
+	magic = *(uint32_t *)macho->ptr;
+	if (magic == FAT_MAGIC)
+		macho->is_rev = 0;
+	else if (magic == FAT_CIGAM)
+		macho->is_rev = 1;
+	else
+		return (0);
+	dprintf(2, "%s\n", macho->is_rev ? "fat_cigam" : "fat_magic");
+	return (1);
+}
+
+int
+nm_check_arch_header(struct macho_info *macho)
+{
+	if (ft_strncmp(macho->ptr, ARMAG, SARMAG) == 0)
+		macho->is_rev = 0;
+	else
+		return (0);
+	dprintf(2, "archive\n");
+	return (1);
+}
+
+int
 nm_check_header(struct macho_info macho)
 {
-	uint32_t	magic;
-	int		ret;
-
-	magic = *(uint32_t *)macho.ptr;
-	if (magic == MH_MAGIC) {
-		dprintf(2, "magic\n");
-		macho.is_rev = 0;
-		ret = nm_mach_header(macho);
-	} else if (magic == MH_CIGAM) {
-		dprintf(2, "cigam\n");
-		macho.is_rev = 1;
-		ret = nm_mach_header(macho);
-	} else if (magic == MH_MAGIC_64) {
-		dprintf(2, "magic64\n");
-		macho.is_rev = 0;
-		ret = nm_mach_header_64(macho);
-	} else if (magic == MH_CIGAM_64) {
-		dprintf(2, "cigam64\n");
-		macho.is_rev = 1;
-		ret = nm_mach_header_64(macho);
-	} else if (magic == FAT_MAGIC) {
-		dprintf(2, "fat magic\n");
-		macho.is_rev = 0;
-		ret = nm_fat_header(macho);
-	} else if (magic == FAT_CIGAM) {
-		dprintf(2, "fat cigam\n");
-		macho.is_rev = 1;
-		ret = nm_fat_header(macho);
-	} else if (ft_strncmp("!<arch>\n", (char *)macho.ptr, 8) == 0) {
-		dprintf(2, "static lib\n");
-		ret = nm_static_lib(macho); 
-	} else {
-		dprintf(2, "NOT FOUND\n");
-		return (-1);
-	}
-	return (ret);
+	if (nm_check_mach_header(&macho))
+		return (nm_mach_header(macho));
+	else if (nm_check_mach_header_64(&macho))
+		return (nm_mach_header_64(macho));
+	else if (nm_check_fat_header(&macho))
+		return (nm_fat_header(macho));
+	else if (nm_check_arch_header(&macho))
+		return (nm_arch_header(macho));
+	write(2, "error: not a valid object file\n", 31);
+	return (-1);
 }

@@ -1,21 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/22 18:13:40 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 18:14:26 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/19 19:27:28 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/28 16:41:05 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
-
 int
-ft_strncmp(char const *s1, char const *s2, size_t n)
+ft_strcmp(const char *s1, const char *s2)
 {
-	while (*s1 && *s2 && *s1 == *s2 && n--)
+	while (*s1 && *s2 && *s1 == *s2)
 	{
 		s1++;
 		s2++;

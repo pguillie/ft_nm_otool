@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 16:49:50 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 16:16:16 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/28 15:09:04 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,10 @@ nm_mach_header(struct macho_info macho)
 	struct mach_header	*header;
 	struct symtab_command	*lc_symtab;
 
-	dprintf(2, "1\n");
 	if ((header = get_mach_header(macho)) == NULL)
 		return (-1);
-	dprintf(2, "2\n");
 	if ((lc_symtab = get_lc_symtab(macho.ptr + sizeof(struct mach_header),
 		header->ncmds, &macho)) == NULL)
 		return (-1);
-	dprintf(2, "3\n");
 	return (nm_symtab(lc_symtab, macho));
 }

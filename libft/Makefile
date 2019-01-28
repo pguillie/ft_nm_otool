@@ -5,55 +5,32 @@
 #                                                     +:+ +:+         +:+      #
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/28 16:41:26 by pguillie         ###   ########.fr        #
+#    Created: 2019/01/24 11:24:18 by pguillie          #+#    #+#              #
+#    Updated: 2019/01/28 18:41:25 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= ft_nm
+NAME	= libft.a
 
+AR	= ar
 CC	= gcc
 CFLAGS	= -Wall -Werror -Wextra
 
-LFT	= libft/libft.a
-
 INCDIR := includes/
 SRCDIR := sources/
-GETDIR := getters/
 
 INCLUDES = \
 $(addprefix $(INCDIR), \
-	ft_nm.h \
+	libft.h \
 )
 
 SOURCES = \
 $(addprefix $(SRCDIR), \
-	main.c \
-	nm_arch_header.c \
-	nm_check_header.c \
-	nm_fat_header.c \
-	nm_mach_header_64.c \
-	nm_mach_header.c \
-	nm_map_file.c \
-	nm_symtab_64.c \
-	nm_symtab.c \
-	write_symbols_64.c \
-	write_symbols.c \
-) \
-$(addprefix $(GETDIR), \
-	get_arch_header.c \
-	get_fat_arch.c \
-	get_fat_header.c \
-	get_load_command.c \
-	get_mach_header_64.c \
-	get_mach_header.c \
-	get_nlist_64.c \
-	get_nlist.c \
-	get_section_64.c \
-	get_section.c \
-	get_segment_command_64.c \
-	get_segment_command.c \
-	get_symtab_command.c \
+	ft_memset.c \
+	ft_strcmp.c \
+	ft_strlen.c \
+	ft_strncmp.c \
+	ft_strncpy.c \
 )
 
 OBJECTS = $(SOURCES:%.c=%.o)
@@ -62,21 +39,16 @@ OBJECTS = $(SOURCES:%.c=%.o)
 
 all: $(NAME)
 
-$(NAME): $(LFT) $(OBJECTS)
-	$(CC) -o $@ $^
+$(NAME): $(OBJECTS)
+	$(AR) -rc $@ $^
 
 %.o: %.c Makefile $(INCLUDES)
-	$(CC) $(CFLAGS) -I includes -c -o $@ $<
-
-$(LFT):
-	make -C $(dir $(LFT))
+	$(CC) $(CFLAGS) -I$(INCDIR) -c -o $@ $<
 
 clean:
-	make -C $(dir $(LFT)) clean
 	rm -f $(OBJECTS)
 
 fclean:
-	make -C $(dir $(LFT)) fclean
 	rm -f $(OBJECTS)
 	rm -f $(NAME)
 

@@ -1,23 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memset.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/16 13:56:45 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/17 17:09:23 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/19 19:58:25 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/24 11:29:08 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int nm_file(const char *file);
+#include "libft.h"
 
-int
-main(int ac, char *av[])
+void *
+ft_memset(void *s, int c, size_t n)
 {
-	//TODO multiarg 
-	if (ac > 1)
-		return (nm_file(av[1]));
-	else
-		return (nm_file("a.out"));
+	uint8_t	*str;
+
+	str = (uint8_t *)s;
+	while (n--)
+		str[n] = c;
+	return (s);
 }

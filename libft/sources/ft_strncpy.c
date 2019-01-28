@@ -1,22 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/19 19:27:28 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/19 19:36:01 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/28 18:10:27 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/28 18:42:06 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int
-ft_strcmp(char const *s1, char const *s2)
+#include <stddef.h>
+
+char *
+ft_strncpy(char *dest, const char *src, size_t n)
 {
-	while (*s1 && *s2 && *s1 == *s2)
-	{
-		s1++;
-		s2++;
+	size_t i;
+
+	i = 0;
+	while (i < n && src[i] != '\0') {
+		dest[i] = src[i];
+		i++;
 	}
-	return (*s1 - *s2);
+	while (i < n) {
+		dest[i] = '\0';
+	}
+	return (dest);
 }
