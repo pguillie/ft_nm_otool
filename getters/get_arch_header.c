@@ -6,18 +6,18 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/28 15:10:59 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/28 19:14:46 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 22:39:59 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 struct ar_hdr *
-get_arch_header(void *ptr, struct macho_info macho)
+get_arch_header(void *ptr, const struct macho_info *macho)
 {
 	struct ar_hdr	*header;
 
-	if (ptr + sizeof(struct ar_hdr) > macho.ptr + macho.size)
+	if (ptr + sizeof(struct ar_hdr) > macho->ptr + macho->size)
 		return (NULL);
 	header = (struct ar_hdr *)ptr;
 	dprintf(2, "=== ARCH_HEADER ===\n");

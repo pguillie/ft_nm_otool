@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:32:01 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 18:32:16 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 21:29:19 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int
 main(int argc, char const *argv[])
 {
-	int	i;
+	int i;
 
 	if (argc > 2) {
 		i = 1;

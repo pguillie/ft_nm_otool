@@ -6,13 +6,13 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:35:34 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/28 18:38:20 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 19:15:56 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-int
+static int
 nm_check_mach_header(struct macho_info *macho)
 {
 	uint32_t magic;
@@ -28,7 +28,7 @@ nm_check_mach_header(struct macho_info *macho)
 	return (1);
 }
 
-int
+static int
 nm_check_mach_header_64(struct macho_info *macho)
 {
 	uint32_t magic;
@@ -44,7 +44,7 @@ nm_check_mach_header_64(struct macho_info *macho)
 	return (1);
 }
 
-int
+static int
 nm_check_fat_header(struct macho_info *macho)
 {
 	uint32_t magic;
@@ -60,7 +60,7 @@ nm_check_fat_header(struct macho_info *macho)
 	return (1);
 }
 
-int
+static int
 nm_check_arch_header(struct macho_info *macho)
 {
 	if (ft_strncmp(macho->ptr, ARMAG, SARMAG) == 0)
@@ -72,16 +72,16 @@ nm_check_arch_header(struct macho_info *macho)
 }
 
 int
-nm_check_header(struct macho_info macho)
+nm_check_header(struct macho_info *macho)
 {
-	if (nm_check_mach_header(&macho))
+	if (nm_check_mach_header(macho))
 		return (nm_mach_header(macho));
-	else if (nm_check_mach_header_64(&macho))
+	else if (nm_check_mach_header_64(macho))
 		return (nm_mach_header_64(macho));
-	else if (nm_check_fat_header(&macho))
+	else if (nm_check_fat_header(macho))
 		return (nm_fat_header(macho));
-	else if (nm_check_arch_header(&macho))
+	else if (nm_check_arch_header(macho))
 		return (nm_arch_header(macho));
-	write(2, "error: not a valid object file\n", 31);
+	write(2, "error: not a valid object file\n", 31); //make cleaner
 	return (-1);
 }

@@ -6,21 +6,21 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 12:49:10 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/23 17:37:46 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 20:46:49 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 struct fat_header *
-get_fat_header(const struct macho_info macho)
+get_fat_header(const struct macho_info *macho)
 {
-	struct fat_header	*header;
+	struct fat_header *header;
 
-	if (sizeof(struct fat_header) > macho.size)
+	if (sizeof(struct fat_header) > macho->size)
 		return (NULL);
-	header = (struct fat_header *)macho.ptr;
-	if (macho.is_rev) {
+	header = (struct fat_header *)macho->ptr;
+	if (macho->is_rev) {
 		header->magic = OSSwapConstInt32(header->magic);
 		header->nfat_arch = OSSwapConstInt32(header->nfat_arch);
 	}

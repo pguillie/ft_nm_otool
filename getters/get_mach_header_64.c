@@ -6,21 +6,21 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 11:19:06 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 11:15:32 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 20:24:42 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 struct mach_header_64 *
-get_mach_header_64(struct macho_info const macho)
+get_mach_header_64(const struct macho_info *macho)
 {
-	struct mach_header_64	*header;
+	struct mach_header_64 *header;
 
-	if (sizeof(struct mach_header_64) > macho.size)
+	if (sizeof(struct mach_header_64) > macho->size)
 		return (NULL);
-	header = (struct mach_header_64 *)macho.ptr;
-	if (macho.is_rev) {
+	header = (struct mach_header_64 *)macho->ptr;
+	if (macho->is_rev) {
 		header->magic = OSSwapConstInt32(header->magic);
 		header->cputype = OSSwapConstInt32(header->cputype);
 		header->cpusubtype = OSSwapConstInt32(header->cpusubtype);
@@ -39,7 +39,7 @@ get_mach_header_64(struct macho_info const macho)
 	dprintf(2, "%.8x\n", header->sizeofcmds);
 	dprintf(2, "%.8x\n", header->flags);
 	dprintf(2, "%.8x\n", header->reserved);
-	if (header->sizeofcmds > macho.size)
+	if (header->sizeofcmds > macho->size)
 		return (NULL);
 	return (header);
 }

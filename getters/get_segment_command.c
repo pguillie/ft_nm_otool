@@ -6,21 +6,21 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 16:58:00 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 16:36:24 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 19:28:12 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 struct segment_command *
-get_segment_command(void *ptr, struct macho_info macho)
+get_segment_command(void *ptr, const struct macho_info *macho)
 {
-	struct segment_command	*seg;
+	struct segment_command *seg;
 
-	if (ptr + sizeof(struct segment_command) > macho.ptr + macho.size)
+	if (ptr + sizeof(struct segment_command) > macho->ptr + macho->size)
 		return (NULL);
 	seg = (struct segment_command *)ptr;
-	if (macho.is_rev) {
+	if (macho->is_rev) {
 		seg->vmaddr = OSSwapConstInt32(seg->vmaddr);
 		seg->vmsize = OSSwapConstInt32(seg->vmsize);
 		seg->fileoff = OSSwapConstInt32(seg->fileoff);
@@ -41,7 +41,7 @@ get_segment_command(void *ptr, struct macho_info macho)
 	dprintf(2, "%.8x\n", seg->nsects);
 	dprintf(2, "%.8x\n", seg->flags);
 	//TODO eventually use `fileoff' instead of `mvaddr'
-	if (seg->vmaddr + seg->vmsize > (uint32_t)macho.ptr + macho.size)
+	if (seg->vmaddr + seg->vmsize > (uint32_t)macho->ptr + macho->size)
 		return (NULL);
 	return (seg);
 }

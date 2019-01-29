@@ -6,14 +6,14 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/28 16:41:26 by pguillie         ###   ########.fr        #
+#    Updated: 2019/01/29 15:40:58 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= ft_nm
 
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra
+CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
 
 LFT	= libft/libft.a
 
@@ -63,7 +63,7 @@ OBJECTS = $(SOURCES:%.c=%.o)
 all: $(NAME)
 
 $(NAME): $(LFT) $(OBJECTS)
-	$(CC) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^
 
 %.o: %.c Makefile $(INCLUDES)
 	$(CC) $(CFLAGS) -I includes -c -o $@ $<

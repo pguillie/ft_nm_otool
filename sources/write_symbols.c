@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 18:10:58 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 22:06:49 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void
 ft_putptr_32(char *buf, uint32_t ptr)
 {
-	size_t	i;
+	size_t i;
 
 	i = 8;
 	while (i--) {
@@ -27,7 +27,7 @@ ft_putptr_32(char *buf, uint32_t ptr)
 static void
 write_symbol_value(uint8_t type, uint32_t value)
 {
-	char	addr[8];
+	char addr[8];
 
 	if ((type & N_TYPE) == N_UNDF && !((type & N_EXT) && value))
 		ft_memset(addr, ' ', 8);
@@ -51,7 +51,7 @@ get_symbole_section(struct nlist entry, struct macho_info macho)
 static void
 write_symbol_type(struct nlist entry, struct macho_info macho)
 {
-	char	s[3];
+	char s[3];
 
 	s[0] = ' ';
 	s[2] = ' ';
@@ -77,18 +77,20 @@ write_symbol_type(struct nlist entry, struct macho_info macho)
 	write(1, s, 3);
 }
 
+//bufferize
 void
 write_symbols(struct nlist *symtab, size_t nsyms, char *strtab,
-	struct macho_info macho)
+	struct macho_info *macho)
 {
-	size_t	i;
-	char	*name;
+	size_t i;
+	char *name;
 
-	if (macho.name) {
-		write(1, "\n", 1);
-		write(1, macho.name, ft_strlen(macho.name));
-		write(1, ":\n", 2);
-	}
+	// segv
+	// if (macho.name) {
+	// 	write(1, "\n", 1);
+	// 	write(1, macho.name, ft_strlen(macho.name));
+	// 	write(1, ":\n", 2);
+	// }
 	i = 0;
 	while (i < nsyms) {
 		if (symtab[i].n_type & N_STAB) {
@@ -96,7 +98,7 @@ write_symbols(struct nlist *symtab, size_t nsyms, char *strtab,
 			continue ;
 		}
 		write_symbol_value(symtab[i].n_type, symtab[i].n_value);
-		write_symbol_type(symtab[i], macho);
+		write_symbol_type(symtab[i], *macho);
 		name = strtab + symtab[i].n_un.n_strx;
 		write(1, name, ft_strlen(name));
 		write(1, "\n", 1);

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/19 20:57:43 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 22:06:45 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void
 ft_putptr_64(char *buf, uint64_t ptr)
 {
-	size_t	i;
+	size_t i;
 
 	i = 16;
 	while (i--) {
@@ -27,7 +27,7 @@ ft_putptr_64(char *buf, uint64_t ptr)
 static void
 write_symbol_value(uint8_t const type, uint64_t const value)
 {
-	char	addr[16];
+	char addr[16];
 
 	if ((type & N_TYPE) == N_UNDF && !((type & N_EXT) && value))
 		ft_memset(addr, ' ', 16);
@@ -51,7 +51,7 @@ get_symbole_section(struct nlist_64 const entry, struct macho_info const macho)
 static void
 write_symbol_type(struct nlist_64 const entry, struct macho_info const macho)
 {
-	char	s[3];
+	char s[3];
 
 	s[0] = ' ';
 	s[2] = ' ';
@@ -77,12 +77,13 @@ write_symbol_type(struct nlist_64 const entry, struct macho_info const macho)
 	write(1, s, 3);
 }
 
+//bufferize
 void
-write_symbols_64(const struct nlist_64 * const symtab, const size_t nsyms,
-	const char * strtab, const struct macho_info macho)
+write_symbols_64(struct nlist_64 * symtab, size_t nsyms, char * strtab,
+	struct macho_info *macho)
 {
-	size_t		i;
-	const char	*name;
+	size_t i;
+	const char *name;
 
 	i = 0;
 	while (i < nsyms) {
@@ -91,7 +92,7 @@ write_symbols_64(const struct nlist_64 * const symtab, const size_t nsyms,
 			continue ;
 		}
 		write_symbol_value(symtab[i].n_type, symtab[i].n_value);
-		write_symbol_type(symtab[i], macho);
+		write_symbol_type(symtab[i], *macho);
 		name = strtab + symtab[i].n_un.n_strx;
 		write(1, name, ft_strlen(name));
 		write(1, "\n", 1);

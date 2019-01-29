@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 16:00:04 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/22 18:07:44 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/29 22:05:13 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 int
 nm_map_file(char const *file, int store_name)
 {
-	struct macho_info	macho;
-	struct stat		buf;
-	int			fd;
-	int			ret;
+	struct macho_info macho;
+	struct stat buf;
+	int fd;
+	int ret;
 
+	(void)store_name;
 	if ((fd = open(file, O_RDONLY)) < 0)
 		return (-1);
 	if (fstat(fd, &buf) < 0) {
@@ -35,9 +36,8 @@ nm_map_file(char const *file, int store_name)
 	close(fd);
 	if (macho.ptr == MAP_FAILED)
 		return (-1);
-	macho.name = (store_name ? file : NULL);
 	macho.size = buf.st_size;
-	ret = nm_check_header(macho);
+	ret = nm_check_header(&macho);
 	if (munmap(macho.ptr, buf.st_size) < 0)
 		return (-1);
 	return (ret);
