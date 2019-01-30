@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 22:06:45 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:18:00 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ ft_putptr_64(char *buf, uint64_t ptr)
 }
 
 static void
-write_symbol_value(uint8_t const type, uint64_t const value)
+write_symbol_value(uint8_t type, uint64_t value)
 {
 	char addr[16];
 
@@ -37,7 +37,7 @@ write_symbol_value(uint8_t const type, uint64_t const value)
 }
 
 static char
-get_symbole_section(struct nlist_64 const entry, struct macho_info const macho)
+get_symbole_section(struct nlist_64 entry, struct macho_info macho)
 {
 	if (entry.n_sect == macho.text_sect)
 		return ('T');
@@ -49,7 +49,7 @@ get_symbole_section(struct nlist_64 const entry, struct macho_info const macho)
 }
 
 static void
-write_symbol_type(struct nlist_64 const entry, struct macho_info const macho)
+write_symbol_type(struct nlist_64 entry, struct macho_info macho)
 {
 	char s[3];
 
@@ -79,23 +79,20 @@ write_symbol_type(struct nlist_64 const entry, struct macho_info const macho)
 
 //bufferize
 void
-write_symbols_64(struct nlist_64 * symtab, size_t nsyms, char * strtab,
+write_symbols_64(struct symtree_64 *node, char *strtab,
 	struct macho_info *macho)
 {
-	size_t i;
-	const char *name;
+	char *name;
 
-	i = 0;
-	while (i < nsyms) {
-		if (symtab[i].n_type & N_STAB) {
-			i++;
-			continue ;
-		}
-		write_symbol_value(symtab[i].n_type, symtab[i].n_value);
-		write_symbol_type(symtab[i], *macho);
-		name = strtab + symtab[i].n_un.n_strx;
+	if (node == NULL)
+		return ;
+	write_symbols_64(node->left, strtab, macho);
+	if (!(node->entry->n_type & N_STAB)) {
+		write_symbol_value(node->entry->n_type, node->entry->n_value);
+		write_symbol_type(*node->entry, *macho);
+		name = strtab + node->entry->n_un.n_strx;
 		write(1, name, ft_strlen(name));
 		write(1, "\n", 1);
-		i++;
 	}
+	write_symbols_64(node->right, strtab, macho);
 }

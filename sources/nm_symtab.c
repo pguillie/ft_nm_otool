@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 19:29:25 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 14:34:01 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 17:42:06 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int
 nm_symtab(struct symtab_command *sym, struct macho_info *macho)
 {
 	struct nlist *symtab;
+	struct symtree *root;
 	char *strtab;
 	size_t i;
 
@@ -60,6 +61,9 @@ nm_symtab(struct symtab_command *sym, struct macho_info *macho)
 	strtab = macho->ptr + sym->stroff;
 	if (verify_string_table(strtab, sym, symtab, macho) == 0)
 		return (-1);
-	write_symbols(symtab, sym->nsyms, strtab, macho);
+	if ((root = symtree_create(symtab, strtab, sym->nsyms)) == NULL)
+		return (-1);
+	write_symbols(root, strtab, macho);
+	symtree_delete(root);
 	return (0);
 }

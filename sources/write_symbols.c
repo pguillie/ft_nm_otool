@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 22:06:49 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 19:17:30 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,29 +79,20 @@ write_symbol_type(struct nlist entry, struct macho_info macho)
 
 //bufferize
 void
-write_symbols(struct nlist *symtab, size_t nsyms, char *strtab,
+write_symbols(struct symtree *node, char *strtab,
 	struct macho_info *macho)
 {
-	size_t i;
 	char *name;
 
-	// segv
-	// if (macho.name) {
-	// 	write(1, "\n", 1);
-	// 	write(1, macho.name, ft_strlen(macho.name));
-	// 	write(1, ":\n", 2);
-	// }
-	i = 0;
-	while (i < nsyms) {
-		if (symtab[i].n_type & N_STAB) {
-			i++;
-			continue ;
-		}
-		write_symbol_value(symtab[i].n_type, symtab[i].n_value);
-		write_symbol_type(symtab[i], *macho);
-		name = strtab + symtab[i].n_un.n_strx;
+	if (node == NULL)
+		return ;
+	write_symbols(node->left, strtab, macho);
+	if (!(node->entry->n_type & N_STAB)) {
+		write_symbol_value(node->entry->n_type, node->entry->n_value);
+		write_symbol_type(*node->entry, *macho);
+		name = strtab + node->entry->n_un.n_strx;
 		write(1, name, ft_strlen(name));
 		write(1, "\n", 1);
-		i++;
 	}
+	write_symbols(node->right, strtab, macho);
 }
