@@ -6,28 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 22:14:49 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 14:18:08 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
-// static ssize_t
-// get_default_arch(struct fat_arch **arch, uint32_t n, struct macho_info *macho)
-// {
-// 	uint32_t i;
-
-// 	i = 0;
-// 	while (i++ < n) {
-// 		if (get_fat_arch(*arch, macho) == NULL)
-// 			return (0);
-// 		if ((*arch)->cputype == CPU_TYPE_X86_64)
-// 			return (1);
-// 		(*arch)++;
-// 	}
-// 	*arch = NULL;
-// 	return (1);
-// }
 
 static ssize_t
 get_arch(struct fat_arch *arch_hdr, uint32_t narch, const struct macho_info *macho)
@@ -79,23 +62,4 @@ nm_fat_header(struct macho_info *macho)
 		nm_fat_arch(arch_hdr, macho);
 	}
 	return (0); //TODO return value
-
-	// if (get_default_arch(&arch, header->nfat_arch, macho) == 0)
-	// 	return (-1);
-	// if (arch) {
-	// 	foo.ptr = macho.ptr + arch->offset;
-	// 	foo.size = arch->size;
-	// 	return (nm_check_header(foo));
-	// }
-	// arch = /* (void *) */macho.ptr + sizeof(struct fat_header);
-	// i = 0;
-	// while (i++ < header->nfat_arch) {
-	// 	//name
-	// 	foo.ptr = macho.ptr + arch->offset;
-	// 	foo.size = arch->size;
-	// 	//ret
-	// 	nm_check_header(foo);
-	// 	arch++;
-	// }
-	// return (0); //ret
 }

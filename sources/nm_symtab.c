@@ -6,27 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 19:29:25 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 22:08:14 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 14:34:01 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
-// static int
-// valid_symbol_string(const struct symtab_command *sym,
-// 	const struct nlist *symtab_entry, const struct macho_info *macho)
-// {
-// 	char *str;
-
-// 	if (sym->stroff + symtab_entry->n_un.n_strx > sym->strsize)
-// 		return (0);
-// 	str = macho->ptr + sym->stroff + symtab_entry->n_un.n_strx;
-// 	while (*str) {
-// 		if ((void *)str++ > macho->ptr + macho->size)
-// 			return (0);
-// 	}
-// 	return (1);
-// }
 
 static int
 verify_symbol_string(const char *symstr, const char *strtab_end)
@@ -73,15 +57,9 @@ nm_symtab(struct symtab_command *sym, struct macho_info *macho)
 			return (-1);
 		i++;
 	}
-	// symtab = get_nlist(macho->ptr + sym->symoff, sym->nsyms, macho);
-	// if (symtab == NULL)
-	// 	return (-1);
 	strtab = macho->ptr + sym->stroff;
 	if (verify_string_table(strtab, sym, symtab, macho) == 0)
 		return (-1);
-	// strtab = get_string_table(sym, symtab, macho);
-	// if (strtab == NULL)
-	// 	return (-1);
 	write_symbols(symtab, sym->nsyms, strtab, macho);
 	return (0);
 }

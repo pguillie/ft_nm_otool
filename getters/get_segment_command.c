@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 16:58:00 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 19:28:12 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 13:04:39 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,5 @@ get_segment_command(void *ptr, const struct macho_info *macho)
 	dprintf(2, "%.8x\n", seg->initprot);
 	dprintf(2, "%.8x\n", seg->nsects);
 	dprintf(2, "%.8x\n", seg->flags);
-	//TODO eventually use `fileoff' instead of `mvaddr'
-	if (seg->vmaddr + seg->vmsize > (uint32_t)macho->ptr + macho->size)
-		return (NULL);
 	return (seg);
 }

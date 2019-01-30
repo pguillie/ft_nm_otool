@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 16:49:50 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 20:26:44 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 14:17:22 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ get_lc_symtab(struct load_command *lc, size_t ncmds, struct macho_info *macho)
 	ssize_t sectx;
 
 	sym = NULL;
+	macho->text_sect = 0;
+	macho->data_sect = 0;
+	macho->bss_sect = 0;
 	sectx = 1;
 	while (ncmds--) {
 		if (get_load_command(lc, macho) == NULL)

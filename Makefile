@@ -6,14 +6,14 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/29 15:40:58 by pguillie         ###   ########.fr        #
+#    Updated: 2019/01/30 12:17:34 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= ft_nm
 
 CC	= gcc
-CFLAGS	= -Wall -Werror -Wextra -g -fsanitize=address
+CFLAGS	= -Wall -Werror -Wextra
 
 LFT	= libft/libft.a
 

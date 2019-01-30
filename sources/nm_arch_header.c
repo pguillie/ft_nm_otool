@@ -6,59 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:17:16 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 23:02:39 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/30 12:16:48 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
-
-// static size_t
-// obj_size(const struct ar_hdr *header)
-// {
-// 	size_t len;
-// 	int i;
-
-// 	len = 0;
-// 	i = 0;
-// 	while (header->ar_size[i] != ' ' && i < 10)
-// 		len = 10 * len + header->ar_size[i++] - '0';
-// 	return (len);
-// }
-
-// static size_t
-// name_size(const char *ar_name)
-// {
-// 	size_t len;
-// 	int i;
-
-// 	len = 0;
-// 	i = 3;
-// 	while (ar_name[i] != ' ' && i < 16)
-// 		len = 10 * len + ar_name[i++] - '0';
-// 	return (len);
-// }
-
-// static int
-// nm_arch_obj_header(struct ar_hdr *obj_hdr, struct macho_info *macho)
-// {
-// 	struct macho_info obj;
-
-// 	if (get_arch_header(obj_hdr, macho) == NULL) {
-// 		if (obj_hdr == macho->ptr + macho->size)
-// 			return (0);
-// 		return (-1);
-// 	}
-// 	obj.ptr = (void *)obj_hdr + sizeof(struct ar_hdr);
-// 	if (ft_strncmp(obj_hdr->ar_name, AR_EFMT1, 3) == 0)
-// 		obj.ptr += name_size(obj_hdr->ar_name);
-// 	obj.size = obj_size(obj_hdr);
-// 	if (obj.ptr > macho->ptr + macho->size)
-// 		return (-1);
-// 	write(1, "\n:\n", 3); //TODO buffer
-// 	nm_check_header(obj);
-// 	return (nm_arch_obj_header((void *)obj_hdr + obj.size
-// 		+ sizeof(struct ar_hdr), macho));
-// }
 
 static size_t
 ar_hdr_size(const char *s, size_t len)
@@ -100,8 +52,7 @@ nm_arch_header(struct macho_info *macho)
 		return (-1);
 	obj_hdr = (void *)header + ar_hdr_size(header->ar_size, 10)
 		+ sizeof(struct ar_hdr);
-	// while ((void *)obj_hdr < macho->ptr + macho->size) {
-	while (1) {
+	while ((void *)obj_hdr < macho->ptr + macho->size) {
 		if (get_arch_header(obj_hdr, macho) == NULL)
 			return (-1);
 		obj_size = ar_hdr_size(obj_hdr->ar_size, 10);
