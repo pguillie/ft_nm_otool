@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/30 20:14:28 by pguillie         ###   ########.fr        #
+#    Updated: 2019/01/31 15:23:14 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,8 @@ $(addprefix $(INCDIR), \
 
 SOURCES = \
 $(addprefix $(SRCDIR), \
+	buf_in.c \
+	buf_out.c \
 	is_ascii_sorted_64.c \
 	is_ascii_sorted.c \
 	main.c \

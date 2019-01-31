@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 14:18:08 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/31 19:46:01 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,57 @@ get_arch(struct fat_arch *arch_hdr, uint32_t narch, const struct macho_info *mac
 	return (i);
 }
 
+static char *
+nm_cpu_type(cpu_type_t cputype)
+{
+	static struct cpu_info cpu[15] = {
+		{CPU_TYPE_ANY, "any"},
+		{CPU_TYPE_VAX, "vax"},
+		{CPU_TYPE_MC680x0, "mc680x0"},
+		{CPU_TYPE_X86, "x86"},
+		{CPU_TYPE_I386, "i386"},
+		{CPU_TYPE_X86_64, "x86_64"},
+		{CPU_TYPE_MC98000, "mc98000"},
+		{CPU_TYPE_HPPA, "hppa"},
+		{CPU_TYPE_ARM, "arm"},
+		{CPU_TYPE_ARM64, "arm64"},
+		{CPU_TYPE_MC88000, "mc88000"},
+		{CPU_TYPE_SPARC, "sparc"},
+		{CPU_TYPE_I860, "i860"},
+		{CPU_TYPE_POWERPC, "ppc"},
+		{CPU_TYPE_POWERPC64, "ppc64"}
+	};
+	size_t i;
+
+	i = 15;
+	while (i--)
+		if (cpu[i].type == cputype)
+			return (cpu[i].str);
+	return ("");
+}
+
 static int
-nm_fat_arch(struct fat_arch *arch_hdr, const struct macho_info *macho)
+nm_fat_arch(struct fat_arch *arch_hdr, const struct macho_info *macho,
+	int multi_arch)
 {
 	struct macho_info arch;
+	char *cpu;
 
 	arch.ptr = macho->ptr + arch_hdr->offset;
 	arch.size = arch_hdr->size;
+	arch.buf_index = 0;
+	if (arch_hdr->cputype != CPU_TYPE_X86_64) {
+		if (multi_arch)
+			buf_in(&arch, "\n", 1);
+		buf_in(&arch, macho->file, ft_strlen(macho->file));
+		if (multi_arch) {
+			buf_in(&arch, " (for architecture ", 19);
+			cpu = nm_cpu_type(arch_hdr->cputype);
+			buf_in(&arch, cpu, ft_strlen(cpu));
+			buf_in(&arch, ")", 1);
+		}
+		buf_in(&arch, ":\n", 2);
+	}
 	return (nm_check_header(&arch));
 }
 
@@ -53,13 +97,13 @@ nm_fat_header(struct macho_info *macho)
 		return (-1);
 	if (i == header->nfat_arch) {
 		while (i--) {
-			nm_fat_arch(arch_hdr, macho);
+			nm_fat_arch(arch_hdr, macho, header->nfat_arch - 1);
 			arch_hdr++;
 		}
 	} else {
 		while (i--)
 			arch_hdr++;
-		nm_fat_arch(arch_hdr, macho);
+		nm_fat_arch(arch_hdr, macho, 0);
 	}
 	return (0); //TODO return value
 }

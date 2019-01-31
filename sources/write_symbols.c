@@ -6,93 +6,96 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 19:17:30 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/31 17:31:25 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-void
-ft_putptr_32(char *buf, uint32_t ptr)
+static void
+write_symbol_value(uint8_t type, uint32_t value, struct macho_info *macho)
 {
+	char tmp[8];
 	size_t i;
 
-	i = 8;
-	while (i--) {
-		buf[i] = ptr % 16 > 9 ? ptr % 16 - 10 + 'a' : ptr % 16 + '0';
-		ptr /= 16;
+	if ((type & N_TYPE) == N_UNDF && !((type & N_EXT) && value)) {
+		ft_memset(tmp, ' ', 8);
+	} else {
+		i = 8;
+		while (i--) {
+			if (value % 16 > 9)
+				tmp[i] = value % 16 - 10 + 'a';
+			else
+				tmp[i] = value % 16 + '0';
+			value /= 16;
+		}
 	}
-}
-
-static void
-write_symbol_value(uint8_t type, uint32_t value)
-{
-	char addr[8];
-
-	if ((type & N_TYPE) == N_UNDF && !((type & N_EXT) && value))
-		ft_memset(addr, ' ', 8);
-	else
-		ft_putptr_32(addr, value);
-	write(1, addr, 8);
+	buf_in(macho, tmp, 8);
 }
 
 static char
-get_symbole_section(struct nlist entry, struct macho_info macho)
+get_symbole_type(const struct nlist *entry, const struct macho_info *macho)
 {
-	if (entry.n_sect == macho.text_sect)
-		return ('T');
-	else if (entry.n_sect == macho.data_sect)
-		return ('D');
-	else if (entry.n_sect == macho.bss_sect)
-		return ('B');
-	return ('S');
+	if ((entry->n_type & N_TYPE) == N_UNDF) {
+		if ((entry->n_type & N_EXT) && entry->n_value)
+			return ('C');
+		return ('U');
+	}
+	if ((entry->n_type & N_TYPE) == N_ABS) {
+		return ('A');
+	} else if ((entry->n_type & N_TYPE) == N_SECT) {
+		if (entry->n_sect == macho->text_sect)
+			return ('T');
+		else if (entry->n_sect == macho->data_sect)
+			return ('D');
+		else if (entry->n_sect == macho->bss_sect)
+			return ('B');
+		return ('S');
+	} else if ((entry->n_type & N_TYPE) == N_PBUD) {
+		return ('P');
+	} else if ((entry->n_type & N_TYPE) == N_INDR) {
+		return ('I');
+	} else {
+		return ('X');
+	}
 }
 
 static void
-write_symbol_type(struct nlist entry, struct macho_info macho)
+write_symbol_type(const struct nlist *entry, struct macho_info *macho)
 {
-	char s[3];
+	char t[3];
 
-	s[0] = ' ';
-	s[2] = ' ';
-	if ((entry.n_type & N_TYPE) == N_UNDF) {
-		if ((entry.n_type & N_EXT) && entry.n_value)
-			s[1] = 'C';
-		else
-			s[1] = 'U';
-	} else {
-		if ((entry.n_type & N_TYPE) == N_ABS)
-			s[1] = 'A';
-		else if ((entry.n_type & N_TYPE) == N_SECT)
-			s[1] = get_symbole_section(entry, macho);
-		else if ((entry.n_type & N_TYPE) == N_PBUD)
-			s[1] = 'P';
-		else if ((entry.n_type & N_TYPE) == N_INDR)
-			s[1] = 'I';
-		else
-			s[1] = 'X';		
-	}
-	if (!(entry.n_type & N_EXT))
-		s[1] |= (1 << 5);
-	write(1, s, 3);
+	t[0] = ' ';
+	t[1] = get_symbole_type(entry, macho);
+	if (!(entry->n_type & N_EXT))
+		t[1] |= (1 << 5);
+	t[2] = ' ';
+	buf_in(macho, t, 3);
 }
 
-//bufferize
-void
-write_symbols(struct symtree *node, char *strtab,
+static void
+write_symbol_name(const struct nlist *entry, const char *strtab,
 	struct macho_info *macho)
 {
-	char *name;
+	const char *name;
 
+	name = strtab + entry->n_un.n_strx;
+	buf_in(macho, name, ft_strlen(name));
+	buf_in(macho, "\n", 1);
+}
+
+void
+write_symbols(struct symtree *node, const char *strtab,
+	struct macho_info *macho)
+{
 	if (node == NULL)
 		return ;
 	write_symbols(node->left, strtab, macho);
 	if (!(node->entry->n_type & N_STAB)) {
-		write_symbol_value(node->entry->n_type, node->entry->n_value);
-		write_symbol_type(*node->entry, *macho);
-		name = strtab + node->entry->n_un.n_strx;
-		write(1, name, ft_strlen(name));
-		write(1, "\n", 1);
+		write_symbol_value(node->entry->n_type, node->entry->n_value,
+			macho);
+		write_symbol_type(node->entry, macho);
+		write_symbol_name(node->entry, strtab, macho);
 	}
 	write_symbols(node->right, strtab, macho);
 }

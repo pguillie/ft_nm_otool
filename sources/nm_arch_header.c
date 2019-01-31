@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:17:16 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 12:16:48 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/31 18:45:58 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,21 +23,45 @@ ar_hdr_size(const char *s, size_t len)
 	return (size);
 }
 
+static size_t
+nm_arch_obj_name(struct ar_hdr *obj_hdr, char **name, size_t *len)
+{
+	size_t ext;
+
+	*len = 0;
+	if (ft_strncmp(obj_hdr->ar_name, AR_EFMT1, 3) == 0) {
+		ext = ar_hdr_size(obj_hdr->ar_name + 3, 13);
+		*name = (void *)obj_hdr + sizeof(struct ar_hdr);
+		while (*len < ext && (*name)[*len])
+			(*len)++;
+	} else {
+		ext = 0;
+		*name = (void *)obj_hdr;
+		while (*len < 16 && (*name)[*len] != ' ')
+			(*len)++;
+	}
+	return (ext);
+}
+
 static int
 nm_arch_obj(struct ar_hdr *obj_hdr, const struct macho_info *macho, size_t size)
 {
 	struct macho_info obj;
+	char *name;
+	size_t len;
 	size_t ext;
 
-	obj.ptr = (void *)obj_hdr + sizeof(struct ar_hdr);
-	obj.size = size;
-	if (ft_strncmp(obj_hdr->ar_name, AR_EFMT1, 3) == 0) {
-		ext = ar_hdr_size(obj_hdr->ar_name + 3, 13);
-		obj.ptr += ext;
-		obj.size -= ext;
-	}
+	ext = nm_arch_obj_name(obj_hdr, &name, &len);
+	obj.ptr = (void *)obj_hdr + sizeof(struct ar_hdr) + ext;
+	obj.size = size - ext;
 	if (obj.ptr + obj.size > macho->ptr + macho->size)
 		return (-1);
+	obj.buf_index = 0;
+	buf_in(&obj, "\n", 1);
+	buf_in(&obj, macho->file, ft_strlen(macho->file));
+	buf_in(&obj, "(", 1);
+	buf_in(&obj, name, len);
+	buf_in(&obj, "):\n", 3);
 	return (nm_check_header(&obj));
 }
 

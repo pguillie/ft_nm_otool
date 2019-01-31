@@ -1,26 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   cpu_type.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/24 11:26:57 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/31 14:52:33 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/31 19:14:13 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/31 19:15:49 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#ifndef CPU_TYPE_H
+# define CPU_TYPE_H
 
-# include <stddef.h>
-# include <stdint.h>
+# include <mach/machine.h>
 
-void	*ft_memset(void *s, int c, size_t n);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
+struct cpu_info {
+	cpu_type_t	type;
+	char		*str;
+};
 
-size_t	ft_strlen(const char *str);
-int	ft_strcmp(const char *s1, const char *s2);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-
-#endif
+#endif /* CPU_TYPE_H */

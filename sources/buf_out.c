@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   buf_out.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/24 11:26:57 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/31 14:52:33 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/31 14:39:51 by pguillie          #+#    #+#             */
+/*   Updated: 2019/01/31 17:26:05 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H
+#include "ft_nm.h"
 
-# include <stddef.h>
-# include <stdint.h>
-
-void	*ft_memset(void *s, int c, size_t n);
-void	*ft_memcpy(void *dest, const void *src, size_t n);
-
-size_t	ft_strlen(const char *str);
-int	ft_strcmp(const char *s1, const char *s2);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-
-#endif
+void
+buf_out(struct macho_info *macho)
+{
+	if (macho->buf_index)
+		write(1, macho->buf, macho->buf_index);
+	macho->buf_index = 0;
+}

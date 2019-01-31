@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 18:33:07 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 20:11:51 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/31 19:16:17 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <unistd.h>
 
 # include "macho_info.h"
+# include "cpu_type.h"
 # include "getters.h"
 # include "symtree.h"
 # include "nm_sort.h"
@@ -55,11 +56,11 @@ int
 nm_symtab_64(struct symtab_command *sym, struct macho_info *macho);
 
 void
-write_symbols(struct symtree *root, char *strtab,
+write_symbols(struct symtree *node, const char *strtab,
 	struct macho_info *macho);
 
 void
-write_symbols_64(struct symtree_64 *root, char * strtab,
+write_symbols_64(struct symtree_64 *node, char *strtab,
 	struct macho_info *macho);
 
 #endif /* FT_NM_H */

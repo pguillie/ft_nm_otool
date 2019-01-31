@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 19:29:25 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 19:18:30 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/01/31 17:18:50 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ nm_symtab_64(struct symtab_command *sym, struct macho_info *macho)
 		return (-1);
 	if ((root = symtree_create_64(symtab, strtab, sym->nsyms)) == NULL)
 		return (-1);
-	write_symbols_64(root, strtab, macho);
+	write_symbols_64(root, strtab, macho); //rename
+	buf_out(macho);
 	symtree_delete_64(root);
 	return (0);
 }
