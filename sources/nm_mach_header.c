@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 16:49:50 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 13:55:31 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/02 15:52:47 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,43 +40,43 @@ nm_section(struct segment_command *seg, ssize_t sectx, struct macho_info *macho)
 	return (sectx);
 }
 
-//real nm doesn't return an error if no SYMTAB is found
-static struct symtab_command *
-get_lc_symtab(struct load_command *lc, size_t ncmds, struct macho_info *macho)
+static int
+nm_mach_lc_symtab(struct load_command **sym, size_t ncmds,
+	struct macho_info *macho)
 {
-	struct symtab_command *sym;
+	struct load_command *lc;
 	ssize_t sectx;
 
-	sym = NULL;
+	lc = *sym;
+	*sym = NULL;
 	macho->text_sect = 0;
 	macho->data_sect = 0;
 	macho->bss_sect = 0;
 	sectx = 1;
 	while (ncmds--) {
 		if (get_load_command(lc, macho) == NULL)
-			return (NULL);
+			return (1);
 		if (lc->cmd == LC_SYMTAB)
-			sym = (struct symtab_command *)lc;
+			*sym = lc;
 		else if (lc->cmd == LC_SEGMENT)
 			sectx = nm_section((void *)lc, sectx, macho);
 		if (sectx < 0)
-			return (NULL);
+			return (-1);
 		lc = (void *)lc + lc->cmdsize;
 	}
-	return (sym);
+	return (0);
 }
 
 int
 nm_mach_header(struct macho_info *macho)
 {
 	struct mach_header *header;
-	struct symtab_command *lc_symtab;
+	struct load_command *lc_symtab;
 
 	if ((header = get_mach_header(macho)) == NULL)
-		return (-1);
-	lc_symtab = get_lc_symtab(macho->ptr + sizeof(struct mach_header),
-		header->ncmds, macho);
-	if (lc_symtab == NULL)
-		return (-1);
-	return (nm_symtab(lc_symtab, macho));
+		return (1);
+	lc_symtab = macho->ptr + sizeof(struct mach_header);
+	if (nm_mach_lc_symtab(&lc_symtab, header->ncmds, macho))
+		return (1);
+	return (nm_symtab((struct symtab_command *)lc_symtab, macho));
 }

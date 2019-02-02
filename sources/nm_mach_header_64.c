@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 16:49:50 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 14:17:22 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/01 18:55:47 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,43 +41,43 @@ nm_section_64(struct segment_command_64 *seg, ssize_t sectx,
 	return (sectx);
 }
 
-//real nm doesn't return an error if no SYMTAB is found
-static struct symtab_command *
-get_lc_symtab(struct load_command *lc, size_t ncmds, struct macho_info *macho)
+static int
+nm_mach_lc_symtab(struct load_command **sym, size_t ncmds,
+	struct macho_info *macho)
 {
-	struct symtab_command *sym;
+	struct load_command *lc;
 	ssize_t sectx;
 
-	sym = NULL;
+	lc = *sym;
+	*sym = NULL;
 	macho->text_sect = 0;
 	macho->data_sect = 0;
 	macho->bss_sect = 0;
 	sectx = 1;
 	while (ncmds--) {
 		if (get_load_command(lc, macho) == NULL)
-			return (NULL);
+			return (1);
 		if (lc->cmd == LC_SYMTAB)
-			sym = (struct symtab_command *)lc;
+			*sym = lc;
 		else if (lc->cmd == LC_SEGMENT_64)
 			sectx = nm_section_64((void *)lc, sectx, macho);
 		if (sectx < 0)
-			return (NULL);
+			return (-1);
 		lc = (void *)lc + lc->cmdsize;
 	}
-	return (sym);
+	return (0);
 }
 
 int
 nm_mach_header_64(struct macho_info *macho)
 {
 	struct mach_header_64 *header;
-	struct symtab_command *lc_symtab;
+	struct load_command *lc_symtab;
 
 	if ((header = get_mach_header_64(macho)) == NULL)
-		return (-1);
-	lc_symtab = get_lc_symtab(macho->ptr + sizeof(struct mach_header_64),
-		header->ncmds, macho);
-	if (lc_symtab == NULL)
-		return (-1);
-	return (nm_symtab_64(lc_symtab, macho));
+		return (1);
+	lc_symtab = macho->ptr + sizeof(struct mach_header_64);
+	if (nm_mach_lc_symtab(&lc_symtab, header->ncmds, macho))
+		return (1);
+	return (nm_symtab_64((struct symtab_command *)lc_symtab, macho));
 }

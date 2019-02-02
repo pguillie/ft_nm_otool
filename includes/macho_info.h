@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 20:11:04 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/31 18:12:06 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/01 14:41:49 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,6 @@
 */
 # define BUF_SIZE 1024
 
-// /*
-// ** 8 and 16 bytes containing space (` ', 0x20) characters
-// */
-// # define SPACE_ADDR	(uint32_t)0x2020202020202020
-// # define SPACE_ADDR_64	(uint64_t)0x20202020202020202020202020202020
-
 struct	macho_info {
 	const char	*file;
 	void		*ptr;
@@ -36,6 +30,7 @@ struct	macho_info {
 	uint8_t		text_sect;
 	uint8_t		data_sect;
 	uint8_t		bss_sect;
+	char		*corr_msg;
 };
 
 void

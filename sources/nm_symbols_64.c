@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   write_symbols_64.c                                 :+:      :+:    :+:   */
+/*   nm_symbols_64.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/31 17:39:51 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:35:15 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 static void
-write_symbol_value(uint8_t type, uint64_t value, struct macho_info *macho)
+nm_symbol_value(uint8_t type, uint64_t value, struct macho_info *macho)
 {
 	char tmp[16];
 	size_t i;
@@ -61,7 +61,7 @@ get_symbole_type(const struct nlist_64 *entry, const struct macho_info *macho)
 }
 
 static void
-write_symbol_type(const struct nlist_64 *entry, struct macho_info *macho)
+nm_symbol_type(const struct nlist_64 *entry, struct macho_info *macho)
 {
 	char t[3];
 
@@ -74,7 +74,7 @@ write_symbol_type(const struct nlist_64 *entry, struct macho_info *macho)
 }
 
 static void
-write_symbol_name(const struct nlist_64 *entry, const char *strtab,
+nm_symbol_name(const struct nlist_64 *entry, const char *strtab,
 	struct macho_info *macho)
 {
 	const char *name;
@@ -85,17 +85,17 @@ write_symbol_name(const struct nlist_64 *entry, const char *strtab,
 }
 
 void
-write_symbols_64(struct symtree_64 *node, char *strtab,
+nm_symbols_64(struct symtree_64 *node, char *strtab,
 	struct macho_info *macho)
 {
 	if (node == NULL)
 		return ;
-	write_symbols_64(node->left, strtab, macho);
+	nm_symbols_64(node->left, strtab, macho);
 	if (!(node->entry->n_type & N_STAB)) {
-		write_symbol_value(node->entry->n_type, node->entry->n_value,
+		nm_symbol_value(node->entry->n_type, node->entry->n_value,
 			macho);
-		write_symbol_type(node->entry, macho);
-		write_symbol_name(node->entry, strtab, macho);
+		nm_symbol_type(node->entry, macho);
+		nm_symbol_name(node->entry, strtab, macho);
 	}
-	write_symbols_64(node->right, strtab, macho);
+	nm_symbols_64(node->right, strtab, macho);
 }

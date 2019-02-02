@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/01/31 15:23:14 by pguillie         ###   ########.fr        #
+#    Updated: 2019/02/01 18:30:33 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ $(addprefix $(INCDIR), \
 	getters.h \
 	libft.h \
 	macho_info.h \
+	nm_error.h \
 	nm_sort.h \
 	symtree.h \
 )
@@ -40,20 +41,21 @@ $(addprefix $(SRCDIR), \
 	main.c \
 	nm_arch_header.c \
 	nm_check_header.c \
+	nm_error.c \
 	nm_fat_header.c \
 	nm_mach_header_64.c \
 	nm_mach_header.c \
 	nm_map_file.c \
 	nm_symtab_64.c \
 	nm_symtab.c \
+	nm_symbols_64.c \
+	nm_symbols.c \
 	symtree_add_64.c \
 	symtree_add.c \
 	symtree_create_64.c \
 	symtree_create.c \
 	symtree_delete_64.c \
 	symtree_delete.c \
-	write_symbols_64.c \
-	write_symbols.c \
 ) \
 $(addprefix $(GETDIR), \
 	get_arch_header.c \

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 11:19:06 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 20:24:42 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/01 14:32:55 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ get_mach_header_64(const struct macho_info *macho)
 		header->flags = OSSwapConstInt32(header->flags);
 		header->reserved = OSSwapConstInt32(header->reserved);
 	}
-	dprintf(2, "=== MACH_HEADER_64 ===\n");
-	dprintf(2, "%.8x\n", header->magic);
-	dprintf(2, "%.8x\n", header->cputype);
-	dprintf(2, "%.8x\n", header->cpusubtype);
-	dprintf(2, "%.8x\n", header->filetype);
-	dprintf(2, "%.8x\n", header->ncmds);
-	dprintf(2, "%.8x\n", header->sizeofcmds);
-	dprintf(2, "%.8x\n", header->flags);
-	dprintf(2, "%.8x\n", header->reserved);
+	dprintf(3, "=== MACH_HEADER_64 ===\n");
+	dprintf(3, "%.8x\n", header->magic);
+	dprintf(3, "%.8x\n", header->cputype);
+	dprintf(3, "%.8x\n", header->cpusubtype);
+	dprintf(3, "%.8x\n", header->filetype);
+	dprintf(3, "%.8x\n", header->ncmds);
+	dprintf(3, "%.8x\n", header->sizeofcmds);
+	dprintf(3, "%.8x\n", header->flags);
+	dprintf(3, "%.8x\n", header->reserved);
 	if (header->sizeofcmds > macho->size)
 		return (NULL);
 	return (header);

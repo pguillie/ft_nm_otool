@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 12:49:10 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 20:46:49 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/01 14:09:04 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ get_fat_header(const struct macho_info *macho)
 		header->magic = OSSwapConstInt32(header->magic);
 		header->nfat_arch = OSSwapConstInt32(header->nfat_arch);
 	}
-	dprintf(2, "=== FAT_HEADER ===\n");
-	dprintf(2, "%.8x\n", header->magic);
-	dprintf(2, "%.8x\n", header->nfat_arch);
+	dprintf(3, "=== FAT_HEADER ===\n");
+	dprintf(3, "%.8x\n", header->magic);
+	dprintf(3, "%.8x\n", header->nfat_arch);
 	return (header);
 }

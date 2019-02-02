@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 14:35:34 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/29 19:15:56 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/02 15:16:59 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ nm_check_mach_header(struct macho_info *macho)
 		macho->is_rev = 1;
 	else
 		return (0);
-	dprintf(2, "%s\n", macho->is_rev ? "cigam" : "magic");
+	dprintf(3, "%s\n", macho->is_rev ? "cigam" : "magic");
 	return (1);
 }
 
@@ -40,7 +40,7 @@ nm_check_mach_header_64(struct macho_info *macho)
 		macho->is_rev = 1;
 	else
 		return (0);
-	dprintf(2, "%s\n", macho->is_rev ? "cigam_64" : "magic_64");
+	dprintf(3, "%s\n", macho->is_rev ? "cigam_64" : "magic_64");
 	return (1);
 }
 
@@ -56,7 +56,7 @@ nm_check_fat_header(struct macho_info *macho)
 		macho->is_rev = 1;
 	else
 		return (0);
-	dprintf(2, "%s\n", macho->is_rev ? "fat_cigam" : "fat_magic");
+	dprintf(3, "%s\n", macho->is_rev ? "fat_cigam" : "fat_magic");
 	return (1);
 }
 
@@ -67,7 +67,7 @@ nm_check_arch_header(struct macho_info *macho)
 		macho->is_rev = 0;
 	else
 		return (0);
-	dprintf(2, "archive\n");
+	dprintf(3, "archive\n");
 	return (1);
 }
 
@@ -82,6 +82,6 @@ nm_check_header(struct macho_info *macho)
 		return (nm_fat_header(macho));
 	else if (nm_check_arch_header(macho))
 		return (nm_arch_header(macho));
-	write(2, "error: not a valid object file\n", 31); //make cleaner
-	return (-1);
+	return (2);
 }
+//multi layer error !!!

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 16:58:00 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 13:04:39 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/02 15:50:16 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ get_segment_command(void *ptr, const struct macho_info *macho)
 		seg->nsects = OSSwapConstInt32(seg->nsects);
 		seg->flags = OSSwapConstInt32(seg->flags);
 	}
-	dprintf(2, "== SEGMENT_COMMAND ==\n");
-	dprintf(2, "%.16s\n", seg->segname);
-	dprintf(2, "%.8x\n", seg->vmaddr);
-	dprintf(2, "%.8x\n", seg->vmsize);
-	dprintf(2, "%.8x\n", seg->fileoff);
-	dprintf(2, "%.8x\n", seg->filesize);
-	dprintf(2, "%.8x\n", seg->maxprot);
-	dprintf(2, "%.8x\n", seg->initprot);
-	dprintf(2, "%.8x\n", seg->nsects);
-	dprintf(2, "%.8x\n", seg->flags);
+	dprintf(3, "== SEGMENT_COMMAND ==\n");
+	dprintf(3, "%.16s\n", seg->segname);
+	dprintf(3, "%.8x\n", seg->vmaddr);
+	dprintf(3, "%.8x\n", seg->vmsize);
+	dprintf(3, "%.8x\n", seg->fileoff);
+	dprintf(3, "%.8x\n", seg->filesize);
+	dprintf(3, "%.8x\n", seg->maxprot);
+	dprintf(3, "%.8x\n", seg->initprot);
+	dprintf(3, "%.8x\n", seg->nsects);
+	dprintf(3, "%.8x\n", seg->flags);
 	return (seg);
 }

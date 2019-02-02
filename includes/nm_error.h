@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buf_out.c                                          :+:      :+:    :+:   */
+/*   nm_error.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/31 14:39:51 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 15:36:35 by pguillie         ###   ########.fr       */
+/*   Created: 2019/02/01 13:08:14 by pguillie          #+#    #+#             */
+/*   Updated: 2019/02/01 18:54:20 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#ifndef NM_ERROR_H
+# define NM_ERROR_H
+
+/*
+** Same output as /usr/bin/nm
+*/
+# define E_UNDF ": Undefined error."
+# define E_NOENT ": No such file or directory."
+# define E_PERM ": Permission denied."
+# define E_NVALID " The file was not recognized as a valid object file\n"
+# define E_TRUNC " truncated or malformed file\n"
 
 void
-buf_out(struct macho_info *macho)
-{
-	if (macho->buf_index) {
-		write(1, macho->buf, macho->buf_index);
-		macho->buf_index = 0;
-	}
-}
+nm_error(const char *file, const char *msg);
+
+#endif /* NM_ERROR_H */

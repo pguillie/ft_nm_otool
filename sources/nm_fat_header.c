@@ -6,14 +6,15 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/31 19:46:01 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/01 19:17:46 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 static ssize_t
-get_arch(struct fat_arch *arch_hdr, uint32_t narch, const struct macho_info *macho)
+get_arch(struct fat_arch *arch_hdr, uint32_t narch,
+	const struct macho_info *macho)
 {
 	uint32_t i;
 
@@ -51,7 +52,7 @@ nm_cpu_type(cpu_type_t cputype)
 	};
 	size_t i;
 
-	i = 15;
+	i = sizeof(cpu) / sizeof(cpu[0]);
 	while (i--)
 		if (cpu[i].type == cputype)
 			return (cpu[i].str);
@@ -68,6 +69,7 @@ nm_fat_arch(struct fat_arch *arch_hdr, const struct macho_info *macho,
 	arch.ptr = macho->ptr + arch_hdr->offset;
 	arch.size = arch_hdr->size;
 	arch.buf_index = 0;
+	arch.file = macho->file;
 	if (arch_hdr->cputype != CPU_TYPE_X86_64) {
 		if (multi_arch)
 			buf_in(&arch, "\n", 1);
@@ -89,21 +91,28 @@ nm_fat_header(struct macho_info *macho)
 	struct fat_header *header;
 	struct fat_arch *arch_hdr;
 	ssize_t i;
+	int ret;
+	int err;
 
 	if ((header = get_fat_header(macho)) == NULL)
-		return (-1);
+		return (1);
 	arch_hdr = macho->ptr + sizeof(struct fat_header);
 	if ((i = get_arch(arch_hdr, header->nfat_arch, macho)) < 0)
-		return (-1);
+		return (1);
 	if (i == header->nfat_arch) {
+		ret = 0;
 		while (i--) {
-			nm_fat_arch(arch_hdr, macho, header->nfat_arch - 1);
-			arch_hdr++;
+			err = nm_fat_arch(arch_hdr++, macho,
+				header->nfat_arch - 1);
+			if (err < 0)
+				return (-1);
+			if (err)
+				ret = 1;
 		}
 	} else {
 		while (i--)
 			arch_hdr++;
-		nm_fat_arch(arch_hdr, macho, 0);
+		ret = nm_fat_arch(arch_hdr, macho, 0);
 	}
-	return (0); //TODO return value
+	return (ret > 0 ? 2 : ret);
 }

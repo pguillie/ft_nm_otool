@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 18:33:07 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/31 19:16:17 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/01 15:20:27 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@
 # include "getters.h"
 # include "symtree.h"
 # include "nm_sort.h"
+# include "nm_error.h"
 # include "libft.h"
 /////
 #include<stdio.h>
 ////
 
 int
-nm_map_file(const char *file, int store_name);
+nm_map_file(const char *file, int multi_args);
 
 int
 nm_check_header(struct macho_info *macho);
@@ -56,11 +57,11 @@ int
 nm_symtab_64(struct symtab_command *sym, struct macho_info *macho);
 
 void
-write_symbols(struct symtree *node, const char *strtab,
+nm_symbols(struct symtree *node, const char *strtab,
 	struct macho_info *macho);
 
 void
-write_symbols_64(struct symtree_64 *node, char *strtab,
+nm_symbols_64(struct symtree_64 *node, char *strtab,
 	struct macho_info *macho);
 
 #endif /* FT_NM_H */

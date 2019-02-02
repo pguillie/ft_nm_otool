@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buf_out.c                                          :+:      :+:    :+:   */
+/*   nm_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/31 14:39:51 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 15:36:35 by pguillie         ###   ########.fr       */
+/*   Created: 2019/02/01 12:59:32 by pguillie          #+#    #+#             */
+/*   Updated: 2019/02/01 19:17:04 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
 void
-buf_out(struct macho_info *macho)
+nm_error(const char *file, const char *msg)
 {
-	if (macho->buf_index) {
-		write(1, macho->buf, macho->buf_index);
-		macho->buf_index = 0;
-	}
+	write(2, "ft_nm: ", 7);
+	if (file)
+		write(2, file, ft_strlen(file));
+	write(2, msg, ft_strlen(msg));
+	write(2, "\n", 1);
 }
