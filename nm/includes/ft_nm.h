@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 18:33:07 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 15:20:27 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/02 17:40:20 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "symtree.h"
 # include "nm_sort.h"
 # include "nm_error.h"
-# include "libft.h"
+# include "../../libft/includes/libft.h"
 /////
 #include<stdio.h>
 ////

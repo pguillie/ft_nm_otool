@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 20:11:04 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 14:41:49 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/06 21:00:25 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ struct	macho_info {
 	uint8_t		text_sect;
 	uint8_t		data_sect;
 	uint8_t		bss_sect;
-	char		*corr_msg;
 };
 
 void
