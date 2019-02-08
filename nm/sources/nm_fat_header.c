@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 19:17:46 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:19:36 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ nm_fat_arch(struct fat_arch *arch_hdr, const struct macho_info *macho,
 	arch.size = arch_hdr->size;
 	arch.buf_index = 0;
 	arch.file = macho->file;
+	arch.opt = macho->opt;
 	if (arch_hdr->cputype != CPU_TYPE_X86_64) {
 		if (multi_arch)
 			buf_in(&arch, "\n", 1);

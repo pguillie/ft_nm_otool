@@ -1,26 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   is_ascii_sorted.c                                  :+:      :+:    :+:   */
+/*   get_sort_function.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/30 15:36:52 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/08 17:53:23 by pguillie         ###   ########.fr       */
+/*   Created: 2019/02/08 19:54:22 by pguillie          #+#    #+#             */
+/*   Updated: 2019/02/08 20:20:06 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_nm.h"
 
-int
-// is_ascii_sorted(const struct nlist *a, const struct nlist *b,
-// 	const char *strtab)
-is_ascii_sorted(const char *s1, const char *s2, uint64_t n1, uint64_t n2)
+int (*get_sort_function(const struct macho_info *macho))
+	(const char *, const char *, uint64_t, uint64_t)
 {
-	int dif;
-
-	dif = ft_strcmp(s1, s2);
-	if (dif == 0)
-		return (n1 < n2);
-	return (dif < 0);
+	if (macho->opt & OPT_P) {
+		return (&is_unsorted);
+	} else if (macho->opt & OPT_N) {
+		if (macho->opt & OPT_R)
+			return (&is_rev_num_sorted);
+		return (&is_num_sorted);
+	} else if (macho->opt & OPT_R) {
+		return (&is_rev_ascii_sorted);
+	} else {
+		return (&is_ascii_sorted);
+	}
 }

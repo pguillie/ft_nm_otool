@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:17:16 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/02 15:24:38 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:19:13 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ nm_arch_obj(struct ar_hdr *obj_hdr, const struct macho_info *macho, size_t size)
 		return (1);
 	obj.buf_index = 0;
 	obj.file = macho->file;
+	obj.opt = macho->opt;
 	buf_in(&obj, "\n", 1);
 	buf_in(&obj, macho->file, ft_strlen(macho->file));
 	buf_in(&obj, "(", 1);

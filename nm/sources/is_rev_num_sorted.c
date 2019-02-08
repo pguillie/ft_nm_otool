@@ -1,35 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   macho_info.h                                       :+:      :+:    :+:   */
+/*   is_rev_num_sorted.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/08 15:45:04 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/08 19:36:50 by pguillie         ###   ########.fr       */
+/*   Created: 2019/02/08 17:27:15 by pguillie          #+#    #+#             */
+/*   Updated: 2019/02/08 17:53:48 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MACHO_INFO_H
-# define MACHO_INFO_H
+#include "ft_nm.h"
 
-/*
-** Should fit in a `uint16_t'
-*/
-# define BUF_SIZE 1024
-
-struct	macho_info {
-	const char	*file;
-	void		*ptr;
-	uint64_t	size;
-	int		opt;
-	char		buf[BUF_SIZE];
-	uint16_t	buf_index;
-	uint8_t		is_rev;
-	uint8_t		text_sect;
-	uint8_t		data_sect;
-	uint8_t		bss_sect;
-	cpu_type_t	cpu;
-};
-
-#endif
+int
+is_rev_num_sorted(const char *s1, const char *s2, uint64_t n1, uint64_t n2)
+{
+	if (n1 != n2)
+		return (n1 > n2);
+	return (ft_strcmp(s1, s2) > 0);
+}

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 16:00:04 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/06 23:28:13 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:18:42 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@
 #include "ft_nm.h"
 
 static int
-nm_init_macho(void *ptr, uint64_t size, const char *file, int multi_args)
+nm_init_macho(void *ptr, uint64_t size, const char *file, int opt,
+	int multi_args)
 {
 	struct macho_info macho;
 
@@ -24,6 +25,7 @@ nm_init_macho(void *ptr, uint64_t size, const char *file, int multi_args)
 	macho.size = size;
 	macho.file = file;
 	macho.buf_index = 0;
+	macho.opt = opt;
 	if (multi_args) {
 		buf_in(&macho, "\n", 1);
 		buf_in(&macho, file, ft_strlen(file));
@@ -57,7 +59,7 @@ mmap_error(const char *file, struct stat buf)
 }
 
 int
-nm_map_file(const char *file, int multi_args)
+nm_map_file(const char *file, int opt, int multi_args)
 {
 	void *ptr;
 	struct stat buf;
@@ -76,7 +78,7 @@ nm_map_file(const char *file, int multi_args)
 	close(fd);
 	if (ptr == MAP_FAILED)
 		return (mmap_error(file, buf));
-	if ((ret = nm_init_macho(ptr, buf.st_size, file, multi_args)) > 0)
+	if ((ret = nm_init_macho(ptr, buf.st_size, file, opt, multi_args)) > 0)
 		nm_error(file, (ret == 1 ? E_TRUNC : E_NVALID));
 	if (munmap(ptr, buf.st_size) < 0)
 		return (-1);

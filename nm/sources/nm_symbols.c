@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/19 19:08:39 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 15:58:50 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 22:40:48 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,18 @@ nm_symbols(struct symtree *node, const char *strtab, struct macho_info *macho)
 	if (node == NULL)
 		return ;
 	nm_symbols(node->left, strtab, macho);
-	if (!(node->entry->n_type & N_STAB)) {
-		nm_symbol_value(node->entry->n_type, node->entry->n_value,
-			macho);
-		nm_symbol_type(node->entry, macho);
+	if (!(node->entry->n_type & N_STAB)
+		&& !((macho->opt & OPT_U)
+			&& (node->entry->n_type & N_TYPE) != N_UNDF)
+		&& !((macho->opt & OPT_NU)
+			&& (node->entry->n_type & N_TYPE) == N_UNDF)
+		&& !((macho->opt & OPT_G)
+			&& !(node->entry->n_type & N_EXT))) {
+		if (!(macho->opt & OPT_J) && !(macho->opt & OPT_U)) {
+			nm_symbol_value(node->entry->n_type,
+				node->entry->n_value, macho);
+			nm_symbol_type(node->entry, macho);
+		}
 		nm_symbol_name(node->entry, strtab, macho);
 	}
 	nm_symbols(node->right, strtab, macho);

@@ -9,8 +9,8 @@ function cmp_file
 	then
 		echo -n "(not exe) "
 	fi
-	./ft_nm $1 > mine 2>log
-	nm $1 2>/dev/null > real
+	./ft_nm -j $1 > mine 2>log
+	nm -j $1 2>/dev/null > real
 	diff mine real 2>&1 >/dev/null
 	if [[ $? -eq 0 ]]
 	then

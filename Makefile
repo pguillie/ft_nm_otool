@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/02/08 15:53:51 by pguillie         ###   ########.fr        #
+#    Updated: 2019/02/08 22:33:37 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,14 +62,19 @@ NM_INCLUDES = $(LIB_INCLUDES) \
 $(addprefix $(NM_INCDIR), \
 	ft_nm.h \
 	nm_error.h \
+	nm_option.h \
 	nm_sort.h \
 	symtree.h \
 )
 
 NM_SOURCES = $(LIB_SOURCES) \
 $(addprefix $(NM_SRCDIR), \
-	is_ascii_sorted_64.c \
+	get_sort_function.c \
 	is_ascii_sorted.c \
+	is_num_sorted.c \
+	is_rev_ascii_sorted.c \
+	is_rev_num_sorted.c \
+	is_unsorted.c \
 	main.c \
 	nm_arch_header.c \
 	nm_check_header.c \
@@ -78,10 +83,12 @@ $(addprefix $(NM_SRCDIR), \
 	nm_mach_header_64.c \
 	nm_mach_header.c \
 	nm_map_file.c \
+	nm_options.c \
 	nm_symtab_64.c \
 	nm_symtab.c \
 	nm_symbols_64.c \
 	nm_symbols.c \
+	nm_usage.c \
 	symtree_add_64.c \
 	symtree_add.c \
 	symtree_create_64.c \

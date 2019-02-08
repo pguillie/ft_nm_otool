@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 19:29:25 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 15:51:14 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:13:47 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ verify_string_table(const char *strtab, const struct symtab_command *sym,
 	i = 0;
 	while (i < sym->nsyms) {
 		symstr = strtab + symtab[i++].n_un.n_strx;
-		if (verify_symbol_string(symstr, strtab + sym->strsize))
+		if (verify_symbol_string(symstr, strtab + sym->strsize) == 1)
 			continue ;
 		return (0);
 	}
@@ -60,7 +60,8 @@ nm_symtab(struct symtab_command *sym, struct macho_info *macho)
 		strtab = macho->ptr + sym->stroff;
 		if (verify_string_table(strtab, sym, symtab, macho) == 0)
 			return (1);
-		if ((root = symtree_create(symtab, strtab, sym->nsyms)) == NULL)
+		root = symtree_create(symtab, strtab, sym->nsyms, macho);
+		if (root == NULL)
 			return (-1);
 		nm_symbols(root, strtab, macho);
 		symtree_delete(root);

@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 19:59:34 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 20:01:52 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 20:08:23 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,22 @@
 
 # include "ft_nm.h"
 
-int
-is_ascii_sorted(const struct nlist *a, const struct nlist *b,
-	const char *strtab);
+int (*get_sort_function(const struct macho_info *macho))
+	(const char *, const char *, uint64_t, uint64_t);
 
 int
-is_ascii_sorted_64(const struct nlist_64 *a, const struct nlist_64 *b,
-	const char *strtab);
+is_ascii_sorted(const char *s1, const char *s2, uint64_t n1, uint64_t n2);
+
+int
+is_rev_ascii_sorted(const char *s1, const char *s2, uint64_t n1, uint64_t n2);
+
+int
+is_num_sorted(const char *s1, const char *s2, uint64_t n1, uint64_t n2);
+
+int
+is_rev_num_sorted(const char *s1, const char *s2, uint64_t n1, uint64_t n2);
+
+int
+is_unsorted(const char *s1, const char *s2, uint64_t n1, uint64_t n2);
 
 #endif /* NM_SORT_H */

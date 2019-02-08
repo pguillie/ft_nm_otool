@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 18:33:07 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/08 15:50:24 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 22:33:21 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,16 @@
 # define FT_NM_H
 
 # include "libmacho.h"
-# include "symtree.h"
-# include "nm_sort.h"
+# include "nm_option.h"
 # include "nm_error.h"
+# include "nm_sort.h"
+# include "symtree.h"
+
+void
+nm_usage(void);
 
 int
-nm_map_file(const char *file, int multi_args);
+nm_map_file(const char *file, int opt, int multi_args);
 
 int
 nm_check_header(struct macho_info *macho);

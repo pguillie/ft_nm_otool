@@ -1,35 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   macho_info.h                                       :+:      :+:    :+:   */
+/*   nm_option.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/02/08 15:45:04 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/08 19:36:50 by pguillie         ###   ########.fr       */
+/*   Created: 2019/02/08 19:23:45 by pguillie          #+#    #+#             */
+/*   Updated: 2019/02/08 22:13:59 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MACHO_INFO_H
-# define MACHO_INFO_H
+#ifndef NM_OPTION_H
+# define NM_OPTION_H
 
-/*
-** Should fit in a `uint16_t'
-*/
-# define BUF_SIZE 1024
-
-struct	macho_info {
-	const char	*file;
-	void		*ptr;
-	uint64_t	size;
-	int		opt;
-	char		buf[BUF_SIZE];
-	uint16_t	buf_index;
-	uint8_t		is_rev;
-	uint8_t		text_sect;
-	uint8_t		data_sect;
-	uint8_t		bss_sect;
-	cpu_type_t	cpu;
+enum {
+	OPT_G = (1 << 0),
+	OPT_N = (1 << 1),
+	OPT_P = (1 << 2),
+	OPT_R = (1 << 3),
+	OPT_U = (1 << 4),
+	OPT_NU = (1 << 5),
+	OPT_J = (1 << 6)
 };
 
-#endif
+int
+nm_options(int *ac, const char ***av);
+
+#endif /* NM_OPTION_H */
