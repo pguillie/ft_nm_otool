@@ -6,11 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 17:04:13 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/02 15:50:56 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:38:51 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "libmacho.h"
 
 //addr or offset ?
 struct section *

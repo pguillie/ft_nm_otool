@@ -1,22 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   buf_out.c                                          :+:      :+:    :+:   */
+/*   buf_in.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/31 14:39:51 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 15:36:35 by pguillie         ###   ########.fr       */
+/*   Created: 2019/01/31 14:41:55 by pguillie          #+#    #+#             */
+/*   Updated: 2019/02/08 15:36:57 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "libmacho.h"
 
 void
-buf_out(struct macho_info *macho)
+buf_in(struct macho_info *macho, const char *str, size_t n)
 {
-	if (macho->buf_index) {
-		write(1, macho->buf, macho->buf_index);
-		macho->buf_index = 0;
+	if (macho->buf_index + n > BUF_SIZE)
+		buf_out(macho);
+	if (n > BUF_SIZE) {
+		write(1, str, n);
+	} else {
+		ft_memcpy(macho->buf + macho->buf_index, str, n);
+		macho->buf_index += n;
 	}
 }

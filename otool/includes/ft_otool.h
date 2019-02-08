@@ -6,29 +6,15 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 18:33:07 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/06 21:00:00 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:50:57 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_OTOOL_H
 # define FT_OTOOL_H
 
-# include <mach-o/loader.h>
-# include <mach-o/nlist.h>
-# include <mach-o/fat.h>
-# include <ar.h>
-# include <stdlib.h>
-# include <stdint.h>
-# include <unistd.h>
-
-# include "macho_info.h"
-# include "cpu_type.h"
-# include "getters.h"
+# include "libmacho.h"
 # include "otool_error.h"
-# include "../../libft/includes/libft.h"
-/////
-#include<stdio.h>
-////
 
 int
 otool_map_file(const char *file);

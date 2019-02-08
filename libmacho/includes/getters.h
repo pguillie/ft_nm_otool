@@ -6,14 +6,14 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/30 20:02:50 by pguillie          #+#    #+#             */
-/*   Updated: 2019/01/30 20:24:35 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:42:05 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GETTERS_H
 # define GETTERS_H
 
-# include "ft_nm.h"
+# include "libmacho.h"
 
 struct mach_header
 *get_mach_header(const struct macho_info *macho);

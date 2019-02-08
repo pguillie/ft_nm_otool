@@ -6,11 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/23 12:49:10 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 14:09:04 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:37:37 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "libmacho.h"
 
 struct fat_header *
 get_fat_header(const struct macho_info *macho)

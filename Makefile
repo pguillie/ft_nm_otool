@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/02/06 18:07:56 by pguillie         ###   ########.fr        #
+#    Updated: 2019/02/08 15:53:51 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,28 +19,55 @@ CFLAGS	= -Wall -Werror -Wextra
 LFT	= libft/libft.a
 
 ################################################################################
+# LIBMACHO
+################################################################################
+
+LIB_INCDIR := libmacho/includes/
+LIB_SRCDIR := libmacho/sources/
+
+LIB_INCLUDES = \
+$(addprefix $(LIB_INCDIR), \
+	cpu_type.h \
+	getters.h \
+	libmacho.h \
+)
+
+LIB_SOURCES = \
+$(addprefix $(LIB_SRCDIR), \
+	buf_in.c \
+	buf_out.c \
+	get_arch_header.c \
+	get_fat_arch.c \
+	get_fat_header.c \
+	get_load_command.c \
+	get_mach_header_64.c \
+	get_mach_header.c \
+	get_nlist_64.c \
+	get_nlist.c \
+	get_section_64.c \
+	get_section.c \
+	get_segment_command_64.c \
+	get_segment_command.c \
+	get_symtab_command.c \
+)
+
+################################################################################
 # NM
 ################################################################################
 
 NM_INCDIR := nm/includes/
 NM_SRCDIR := nm/sources/
-NM_GETDIR := nm/getters/
 
-NM_INCLUDES = \
+NM_INCLUDES = $(LIB_INCLUDES) \
 $(addprefix $(NM_INCDIR), \
-	cpu_type.h \
 	ft_nm.h \
-	getters.h \
-	macho_info.h \
 	nm_error.h \
 	nm_sort.h \
 	symtree.h \
 )
 
-NM_SOURCES = \
+NM_SOURCES = $(LIB_SOURCES) \
 $(addprefix $(NM_SRCDIR), \
-	buf_in.c \
-	buf_out.c \
 	is_ascii_sorted_64.c \
 	is_ascii_sorted.c \
 	main.c \
@@ -61,21 +88,6 @@ $(addprefix $(NM_SRCDIR), \
 	symtree_create.c \
 	symtree_delete_64.c \
 	symtree_delete.c \
-) \
-$(addprefix $(NM_GETDIR), \
-	get_arch_header.c \
-	get_fat_arch.c \
-	get_fat_header.c \
-	get_load_command.c \
-	get_mach_header_64.c \
-	get_mach_header.c \
-	get_nlist_64.c \
-	get_nlist.c \
-	get_section_64.c \
-	get_section.c \
-	get_segment_command_64.c \
-	get_segment_command.c \
-	get_symtab_command.c \
 )
 
 NM_OBJECTS = $(NM_SOURCES:%.c=%.o)
@@ -86,20 +98,15 @@ NM_OBJECTS = $(NM_SOURCES:%.c=%.o)
 
 OTOOL_INCDIR := otool/includes/
 OTOOL_SRCDIR := otool/sources/
-OTOOL_GETDIR := nm/getters/
 
-OTOOL_INCLUDES = \
+OTOOL_INCLUDES = $(LIB_INCLUDES) \
 $(addprefix $(OTOOL_INCDIR), \
 	ft_otool.h \
-	getters.h \
-	macho_info.h \
 	otool_error.h \
 )
 
-OTOOL_SOURCES = \
+OTOOL_SOURCES = $(LIB_SOURCES) \
 $(addprefix $(OTOOL_SRCDIR), \
-	buf_in.c \
-	buf_out.c \
 	main.c \
 	otool_arch_header.c \
 	otool_check_header.c \
@@ -110,21 +117,6 @@ $(addprefix $(OTOOL_SRCDIR), \
 	otool_map_file.c \
 	otool_text_64.c \
 	otool_text.c \
-) \
-$(addprefix $(NM_GETDIR), \
-	get_arch_header.c \
-	get_fat_arch.c \
-	get_fat_header.c \
-	get_load_command.c \
-	get_mach_header_64.c \
-	get_mach_header.c \
-	get_nlist_64.c \
-	get_nlist.c \
-	get_section_64.c \
-	get_section.c \
-	get_segment_command_64.c \
-	get_segment_command.c \
-	get_symtab_command.c \
 )
 
 OTOOL_OBJECTS = $(OTOOL_SOURCES:%.c=%.o)
@@ -147,11 +139,14 @@ $(NM): $(LFT) $(NM_OBJECTS)
 $(OTOOL): $(LFT) $(OTOOL_OBJECTS)
 	$(CC) $(CFLAGS) -o $@ $^
 
+libmacho/%.o: libmacho/%.c Makefile $(LIB_INCLUDES)
+	$(CC) $(CFLAGS) -I $(LIB_INCDIR) -c -o $@ $<
+
 nm/%.o: nm/%.c Makefile $(NM_INCLUDES)
-	$(CC) $(CFLAGS) -I $(NM_INCDIR) -c -o $@ $<
+	$(CC) $(CFLAGS) -I $(NM_INCDIR) -I $(LIB_INCDIR) -c -o $@ $<
 
 otool/%.o: otool/%.c Makefile $(OTOOL_INCLUDES)
-	$(CC) $(CFLAGS) -I $(OTOOL_INCDIR) -c -o $@ $<
+	$(CC) $(CFLAGS) -I $(OTOOL_INCDIR) -I $(LIB_INCDIR) -c -o $@ $<
 
 $(LFT):
 	make -C $(dir $(LFT))

@@ -6,11 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 19:35:17 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 14:09:04 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:39:10 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "libmacho.h"
 
 struct symtab_command *
 get_symtab_command(void *ptr, const struct macho_info *macho)

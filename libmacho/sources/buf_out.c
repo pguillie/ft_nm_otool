@@ -6,11 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/31 14:39:51 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/06 16:25:37 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:37:07 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_otool.h"
+#include "libmacho.h"
 
 void
 buf_out(struct macho_info *macho)

@@ -6,31 +6,17 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 18:33:07 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/02 17:40:20 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:50:24 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_NM_H
 # define FT_NM_H
 
-# include <mach-o/loader.h>
-# include <mach-o/nlist.h>
-# include <mach-o/fat.h>
-# include <ar.h>
-# include <stdlib.h>
-# include <stdint.h>
-# include <unistd.h>
-
-# include "macho_info.h"
-# include "cpu_type.h"
-# include "getters.h"
+# include "libmacho.h"
 # include "symtree.h"
 # include "nm_sort.h"
 # include "nm_error.h"
-# include "../../libft/includes/libft.h"
-/////
-#include<stdio.h>
-////
 
 int
 nm_map_file(const char *file, int multi_args);

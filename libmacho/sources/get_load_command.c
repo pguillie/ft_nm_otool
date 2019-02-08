@@ -6,11 +6,11 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 13:43:49 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/01 14:09:04 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/08 15:37:57 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_nm.h"
+#include "libmacho.h"
 
 struct load_command *
 get_load_command(void *ptr, const struct macho_info *macho)
