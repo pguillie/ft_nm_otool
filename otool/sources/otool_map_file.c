@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/18 16:00:04 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/06 23:27:02 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/10 17:33:44 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "ft_otool.h"
 
 static int
-otool_init_macho(void *ptr, uint64_t size, const char *file)
+otool_init_macho(void *ptr, uint64_t size, const char *file, int opt)
 {
 	struct macho_info macho;
 
@@ -24,6 +24,7 @@ otool_init_macho(void *ptr, uint64_t size, const char *file)
 	macho.size = size;
 	macho.file = file;
 	macho.buf_index = 0;
+	macho.opt = opt;
 	buf_in(&macho, file, ft_strlen(file));
 	buf_in(&macho, ":\n", 2);
 	return (otool_check_header(&macho));
@@ -54,7 +55,7 @@ mmap_error(const char *file, struct stat buf)
 }
 
 int
-otool_map_file(const char *file)
+otool_map_file(const char *file, int opt)
 {
 	void *ptr;
 	struct stat buf;
@@ -73,7 +74,7 @@ otool_map_file(const char *file)
 	close(fd);
 	if (ptr == MAP_FAILED)
 		return (mmap_error(file, buf));
-	ret = otool_init_macho(ptr, buf.st_size, file);
+	ret = otool_init_macho(ptr, buf.st_size, file, opt);
 	if (ret == 1)
 		otool_error(file, E_TRUNC);
 	else if (ret > 1)

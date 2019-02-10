@@ -6,7 +6,7 @@
 #    By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/08 15:27:58 by pguillie          #+#    #+#              #
-#    Updated: 2019/02/08 22:33:37 by pguillie         ###   ########.fr        #
+#    Updated: 2019/02/10 19:12:21 by pguillie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,7 @@ OTOOL_INCLUDES = $(LIB_INCLUDES) \
 $(addprefix $(OTOOL_INCDIR), \
 	ft_otool.h \
 	otool_error.h \
+	otool_option.h \
 )
 
 OTOOL_SOURCES = $(LIB_SOURCES) \
@@ -122,8 +123,10 @@ $(addprefix $(OTOOL_SRCDIR), \
 	otool_mach_header_64.c \
 	otool_mach_header.c \
 	otool_map_file.c \
-	otool_text_64.c \
-	otool_text.c \
+	otool_options.c \
+	otool_sect_64.c \
+	otool_sect.c \
+	otool_usage.c \
 )
 
 OTOOL_OBJECTS = $(OTOOL_SOURCES:%.c=%.o)

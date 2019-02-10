@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:17:16 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/06 21:13:10 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/10 17:30:35 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ otool_arch_obj(struct ar_hdr *obj_hdr, const struct macho_info *macho, size_t si
 	if (obj.ptr + obj.size > macho->ptr + macho->size)
 		return (1);
 	obj.buf_index = 0;
+	obj.opt = macho->opt;
 	obj.file = macho->file;
 	buf_in(&obj, macho->file, ft_strlen(macho->file));
 	buf_in(&obj, "(", 1);

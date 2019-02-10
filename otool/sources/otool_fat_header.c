@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:37:56 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/06 21:31:03 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/10 17:30:50 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ otool_fat_arch(struct fat_arch *arch_hdr, const struct macho_info *macho,
 	arch.size = arch_hdr->size;
 	arch.buf_index = 0;
 	arch.file = macho->file;
+	arch.opt = macho->opt;
 	buf_in(&arch, macho->file, ft_strlen(macho->file));
 	if (multi_arch) {
 		buf_in(&arch, " (architecture ", 15);
