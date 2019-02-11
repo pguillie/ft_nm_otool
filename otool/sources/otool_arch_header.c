@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/22 18:17:16 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/10 17:30:35 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/10 23:42:31 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ otool_arch_obj_name(struct ar_hdr *obj_hdr, char **name, size_t *len)
 			(*len)++;
 	} else {
 		ext = 0;
-	*name = (void *)obj_hdr;
+		*name = (void *)obj_hdr;
 		while (*len < 16 && (*name)[*len] != ' ')
 			(*len)++;
 	}

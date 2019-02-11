@@ -6,7 +6,7 @@
 /*   By: pguillie <pguillie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/02/06 18:01:41 by pguillie          #+#    #+#             */
-/*   Updated: 2019/02/10 18:24:51 by pguillie         ###   ########.fr       */
+/*   Updated: 2019/02/11 17:33:59 by pguillie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,11 @@ otool_sect_64(struct section_64 *sect, struct macho_info *macho)
 	if (sect) {
 		otool_sect_descr(sect, macho);
 		if (sect->offset + sect->size > macho->size)
-			return (-1);
+			return (1);
 		ptr = macho->ptr + sect->offset;
 		size = sect->size;
 		i = 0;
-		while (i < sect->size)
-		{
+		while (i < sect->size) {
 			otool_address(sect->addr + i, macho);
 			buf_in(macho, "\t", 1);
 			otool_content(ptr + i, size > 16 ? 16 : size, macho);
